@@ -15,25 +15,14 @@ func NewBookRepository(db *sql.DB) domains.BookRepository {
 	return &BookRepository{db: db}
 }
 
-func (b *BookRepository) Insert(title, author, description, cover string, pageNumber, stock, deposit, categoryId, libraryId int64) (domains.Book, error) {
+func (b *BookRepository) Add(title, author, description, cover string, pageNumber, stock, deposit, categoryId, libraryId int64) (domains.Book, error) {
 	var book domains.Book
 	sqlStmt := `
 		INSERT INTO books(title, author, description, cover, page_number, stock, deposit, category_id, library_id, is_publish, created_at, updated_at)
-		VALUES (?, ?, ?, ?, ?, ?, ? ,? ,? ,?, ?)
-		RETURNING title, author, description, cover, page_number, stock, deposit, category_id, is_publish
+		VALUES (?, ?, ?, ?, ?, ?, ? ,? ,? ,?, ?, ?)
 	`
 
-	err := b.db.QueryRow(sqlStmt, title, author, description, cover, pageNumber, stock, deposit, categoryId, libraryId, true, time.Now(), time.Now()).Scan(
-		&book.Title,
-		&book.Author,
-		&book.Description,
-		&book.Cover,
-		&book.PageNumber,
-		&book.Stock,
-		&book.Deposit,
-		&book.CategoryName,
-		&book.IsPublish,
-	)
+	_, err := b.db.Exec(sqlStmt, title, author, description, cover, pageNumber, stock, deposit, categoryId, libraryId, true, time.Now(), time.Now())
 
 	if err != nil {
 		return domains.Book{}, err
@@ -78,31 +67,30 @@ func (b *BookRepository) Update(title, author, description, cover string, pageNu
 
 }
 
-func (b *BookRepository) GetBookById(id int64) (domains.Book, error) {
+func (b *BookRepository) GetById(id int64) (domains.Book, error) {
 	var book domains.Book
 
 	sqlStmt := `
-		SELECT 
-		 b.title, 
-		 b.author, 
-		 b.description, 
-		 b.cover, 
-		 b.page_number, 
-		 b.stock, 
-		 b.deposit, 
-		 b.category_id,
-		 bc.name,
-		 b.library_id,
-		 l.name,
-		 l.address,
-		 b.is_publish
+		SELECT
+		 b.id,
+		 b.title,
+		 b.author,
+		 b.description,
+		 b.cover,
+		 b.page_number,
+		 b.stock,
+		 b.deposit,
+		 bc.name as category_name,
+		 l.name as library_name,
+		 l.address as library_address
 		FROM books b
-		INNER JOIN book_category bc ON b.category_id = bc.id
+		INNER JOIN book_categories bc ON b.category_id = bc.id
 		INNER JOIN libraries l ON b.library_id = l.id
-		WHERE id = ?
+		WHERE b.id = ?
 	`
 
 	err := b.db.QueryRow(sqlStmt, id).Scan(
+		&book.ID,
 		&book.Title,
 		&book.Author,
 		&book.Description,
@@ -111,7 +99,8 @@ func (b *BookRepository) GetBookById(id int64) (domains.Book, error) {
 		&book.Stock,
 		&book.Deposit,
 		&book.CategoryName,
-		&book.IsPublish,
+		&book.LibraryName,
+		&book.LibraryAddress,
 	)
 
 	if err != nil {
@@ -121,7 +110,7 @@ func (b *BookRepository) GetBookById(id int64) (domains.Book, error) {
 	return book, nil
 }
 
-func (b *BookRepository) GetAllBook() ([]domains.Book, error) {
+func (b *BookRepository) GetAll() ([]domains.Book, error) {
 	var books = []domains.Book{}
 
 	sqlStmt := `
@@ -134,14 +123,12 @@ func (b *BookRepository) GetAllBook() ([]domains.Book, error) {
 	 b.page_number, 
 	 b.stock, 
 	 b.deposit, 
-	 b.category_id,
-	 bc.category_name, 
-	 b.library_id,
-	 l.name
+	 bc.name as category_name, 
+	 l.name as library_name
 	FROM books b 
 	INNER JOIN book_categories bc ON b.category_id = bc.id
 	INNER JOIN libraries l ON b.library_id = l.id
-	 `
+	`
 
 	rows, err := b.db.Query(sqlStmt)
 

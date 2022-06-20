@@ -2,7 +2,9 @@ package handler
 
 import (
 	"errors"
+	"log"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/rg-km/final-project-engineering-16/backend/app/presenter"
@@ -19,12 +21,12 @@ type insertBook struct {
 	Author      string `json:"author" form:"author"`
 	Description string `json:"description" form:"description"`
 	Cover       string `json:"cover" form:"cover"`
-	PageNumber  int64  `json:"page_number" form:"page_number"`
+	PageNumber  int64  `json:"pageNumber" form:"pageNumber"`
 	Stock       int64  `json:"stock" form:"stock"`
 	Deposit     int64  `json:"deposit" form:"deposit"`
-	CategoryId  int64  `json:"category_id" form:"category_id"`
-	LibraryId   int64  `json:"library_id" form:"library_id"`
-	IsPublish   bool   `json:"is_publish" form:"is_publish"`
+	CategoryId  int64  `json:"categoryId" form:"categoryId"`
+	LibraryId   int64  `json:"libraryId" form:"libraryId"`
+	IsPublish   bool   `json:"isPublish" form:"isPublish"`
 }
 
 func (i *idBook) ToGetByIdBookDomain() domains.Book {
@@ -62,19 +64,26 @@ func NewBookController(b domains.BookUsecase) BookController {
 }
 
 func (b BookController) GetBookById(c *gin.Context) {
-	req := idBook{}
+	paramsId := c.Param("id")
 
-	if err := c.Bind(&req); err != nil {
+	id, err := strconv.Atoi(paramsId)
+
+	req := idBook{
+		Id: int64(id),
+	}
+
+	if err = c.Bind(&req); err != nil {
 		presenter.ErrorResponse(c, http.StatusBadRequest, exceptions.ErrBadRequest)
 		return
 	}
 
 	domain := req.ToGetByIdBookDomain()
 
-	res, err := b.bookUsecase.GetById(domain)
+	res, err := b.bookUsecase.FetchById(domain)
 
 	if err != nil {
 		if errors.Is(err, exceptions.ErrBadRequest) {
+			log.Printf("error handler-book FetchById %s", err)
 			presenter.ErrorResponse(c, http.StatusBadRequest, exceptions.ErrBadRequest)
 			return
 		}
@@ -85,8 +94,9 @@ func (b BookController) GetBookById(c *gin.Context) {
 }
 
 func (b BookController) GetAllBook(c *gin.Context) {
-	res, err := b.bookUsecase.GetAll()
+	res, err := b.bookUsecase.FetchAll()
 	if err != nil {
+		log.Printf("error handler-book GetAllBook %v", err)
 		presenter.ErrorResponse(c, http.StatusBadRequest, exceptions.ErrInternalServerError)
 		return
 	}
@@ -103,23 +113,25 @@ func (b BookController) GetAllBook(c *gin.Context) {
 func (b BookController) InsertBook(c *gin.Context) {
 	req := insertBook{}
 
-	if err := c.Bind(&req); err != nil {
+	if err := c.ShouldBindJSON(&req); err != nil {
 		presenter.ErrorResponse(c, http.StatusBadRequest, exceptions.ErrBadRequest)
 		return
 	}
 
 	domain := req.ToInsertBookDomain()
 
-	res, err := b.bookUsecase.Add(domain)
+	_, err := b.bookUsecase.Insert(domain)
 
 	if err != nil {
 		if errors.Is(err, exceptions.ErrBadRequest) {
 			presenter.ErrorResponse(c, http.StatusBadRequest, exceptions.ErrBadRequest)
 			return
+		} else {
+			presenter.ErrorResponse(c, http.StatusInternalServerError, exceptions.ErrInternalServerError)
 		}
 	}
 
-	responseFromDomain := presenter.FetchBookDefault(res)
+	// responseFromDomain := presenter.FetchBookDefault(res)
 
-	presenter.SuccessResponse(c, http.StatusOK, responseFromDomain)
+	presenter.SuccessResponse(c, http.StatusCreated, nil)
 }

@@ -114,7 +114,7 @@ func main() {
 			created_at DATETIME,
 			updated_at DATETIME,
 			deleted_at DATETIME,
-		FOREIGN KEY (category_id) REFERENCES book_category(id)
+		FOREIGN KEY (category_id) REFERENCES book_categories(id)
 		FOREIGN KEY (library_id) REFERENCES libraries(id)
 		)
 	`)
@@ -135,21 +135,21 @@ func main() {
 	}
 
 	// For Testing
-	_, err = db.Exec(`INSERT INTO book_categories (name) VALUES ("EDUCATION"), ("ROMANTIC"), ("FIKSI")`)
+	// _, err = db.Exec(`INSERT INTO book_categories (name) VALUES ("EDUCATION"), ("ROMANTIC"), ("FIKSI")`)
 
-	if err != nil {
-		panic(err)
-	}
+	// if err != nil {
+	// 	panic(err)
+	// }
 	// For Testing
-	_, err = db.Exec(`
-		INSERT INTO books (title, author, description, cover, page_number, stock, deposit, category_id, library_id, is_publish)
-		VALUES ("Berdamai dengan Emosi", "Asti Musman", "Ragam Emosi, Gangguan Emosi, Emosi dan Ekspresi Wajah", "berdamai.jpg", 120, 40, 30000, 0, 0, true ),
-		("Paket komplit having fun 7in one", "Tim Penerbit", "Paket buku ini disusun agar kita sebagai orang tua.", "7in.jpg", 190, 2, 70000, 1, 1, true )
-	`)
+	// _, err = db.Exec(`
+	// 	INSERT INTO books (title, author, description, cover, page_number, stock, deposit, category_id, library_id, is_publish)
+	// 	VALUES ("Berdamai dengan Emosi", "Asti Musman", "Ragam Emosi, Gangguan Emosi, Emosi dan Ekspresi Wajah", "berdamai.jpg", 120, 40, 30000, 1, 1, true ),
+	// 	("Paket komplit having fun 7in one", "Tim Penerbit", "Paket buku ini disusun agar kita sebagai orang tua.", "7in.jpg", 190, 2, 70000, 2, 2, true )
+	// `)
 
-	if err != nil {
-		panic(err)
-	}
+	// if err != nil {
+	// 	panic(err)
+	// }
 }
 
 func Rollback(db *sql.DB) {

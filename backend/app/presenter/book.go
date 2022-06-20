@@ -8,7 +8,7 @@ type Book struct {
 	Author       string `json:"author"`
 	Description  string `json:"description"`
 	Cover        string `json:"cover"`
-	PageNumber   int64  `json:"page_number"`
+	PageNumber   int64  `json:"pageNumber"`
 	Stock        int64  `json:"stock"`
 	Deposit      int64  `json:"deposit"`
 	CategoryName string `json:"categoryName"`
@@ -17,6 +17,7 @@ type Book struct {
 
 func FetchBookDefault(b domains.Book) Book {
 	return Book{
+		ID:           b.ID,
 		Title:        b.Title,
 		Author:       b.Author,
 		Description:  b.Description,

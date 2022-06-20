@@ -31,14 +31,14 @@ type CreateBook struct {
 }
 
 type BookRepository interface {
-	Insert(title, author, description, cover string, pageNumber, stock, deposit, categoryId, libraryId int64) (Book, error)
+	Add(title, author, description, cover string, pageNumber, stock, deposit, categoryId, libraryId int64) (Book, error)
 	// Update(title, author, description, cover string, pageNumber, stock, deposit, categoryId, id int64) (Book, error)
-	GetBookById(id int64) (Book, error)
-	GetAllBook() ([]Book, error)
+	GetAll() ([]Book, error)
+	GetById(id int64) (Book, error)
 }
 
 type BookUsecase interface {
-	Add(book CreateBook) (Book, error)
-	GetAll() ([]Book, error)
-	GetById(book Book) (Book, error)
+	Insert(book CreateBook) (Book, error)
+	FetchAll() ([]Book, error)
+	FetchById(book Book) (Book, error)
 }
