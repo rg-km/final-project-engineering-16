@@ -1,4 +1,4 @@
-name: Deploy Frontend (Main)
+name: Deploy Frontend (Branch main)
 
 on:
   push:
