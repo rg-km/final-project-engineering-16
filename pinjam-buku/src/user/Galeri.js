@@ -45,7 +45,7 @@ const Galeri = () => {
                     <Row>
                         {booksList.map(item =>
                             <Col md={4} key={item.id}>
-                                <Link to="/detail-buku" className="link-book">
+                                <Link to={`/galeri-buku/${item.id}`} className="link-book">
                                     <Card className="pd-3 card-book">
                                         <Card.Img variant="top" src={require("../images/library-logo.png")} />
                                         <Card.Body>
