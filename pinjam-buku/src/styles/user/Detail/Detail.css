@@ -1,0 +1,78 @@
+.detail-page {
+  font-family: "Poppins", sans-serif;
+  padding: 0;
+  margin: auto;
+}
+.detail-page .detail-top {
+  font-weight: 600;
+  line-height: 3rem;
+}
+.detail-page .detail-top .detail-logo {
+  width: 3%;
+  height: auto;
+}
+.detail-page .detail-book {
+  padding: 2rem 2.6rem;
+  border: 1px solid #C9C9C9;
+  border-radius: 20px;
+  box-shadow: 0px 0px 4px #C9C9C9;
+}
+.detail-page .detail-book .detail-title {
+  font-weight: bold;
+}
+.detail-page .detail-book .detail-library {
+  line-height: 2rem;
+}
+.detail-page .detail-book .detail-row .detail-col-photo .photo {
+  max-width: 95%;
+  height: auto;
+  border-radius: 10px;
+  margin: auto;
+  display: block;
+}
+.detail-page .detail-book .detail-row .detail-col-text table tr .space {
+  padding: 0 0.7rem;
+}
+.detail-page .detail-book .detail-row .detail-col-text p {
+  padding: 0.5rem 0 0 0;
+}
+.detail-page .detail-book .detail-row .detail-col-text .detail-btn {
+  background-color: #5C79C5;
+  border: none;
+}
+.detail-page .detail-book .detail-row .detail-col-text .detail-btn:hover {
+  box-shadow: 0px 0px 5px 2px #868ddd;
+  font-size: 17px;
+}
+.detail-page .detail-book .detail-row .detail-col-text .detail-btn .btn-icon {
+  width: 1.5rem;
+  height: auto;
+}
+.detail-page .detail-book table {
+  margin: 0.5rem 0 0 0;
+}
+.detail-page .detail-book table .tb-loc-title {
+  width: 30%;
+}
+.detail-page .detail-book table .tb-loc-title .location-logo {
+  width: 1.6rem;
+  height: auto;
+}
+.detail-page .another-books {
+  padding: 3rem 0 0 0;
+}
+.detail-page .another-books .another-title {
+  text-align: center;
+  font-weight: 600;
+}
+.detail-page .another-books .another-cards {
+  padding: 1rem;
+}
+.detail-page .another-books .another-cards .link-book {
+  text-decoration: none;
+  color: black;
+}
+.detail-page .another-books .another-cards .link-book .another-card {
+  border-radius: 10px;
+  box-shadow: 0px 4px 6px #979797;
+}/*# sourceMappingURL=Detail.css.map */
