@@ -9,6 +9,7 @@ import Keranjang from './user/Keranjang'
 import Konfirmasi from './user/Konfirmasi'
 import Profile from './user/Profile'
 import Status from './user/Status'
+import History from './user/History'
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
         <Route path="konfirmasi" element={<Konfirmasi />} />
         <Route path="profile" element={<Profile />} />
         <Route path="status-peminjaman" element={<Status />} />
+        <Route path="history-peminjaman" element={<History />} />
       </Routes>
     </div >
   );
