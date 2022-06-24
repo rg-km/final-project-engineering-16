@@ -1,0 +1,27 @@
+.profile-page {
+    font-family: 'Poppins', sans-serif;
+
+    .profile-top {
+        background-color: #DBDFFD;
+        padding: 0.3rem;
+
+        .profile-photo {
+            width: 7%;
+            padding: 0;
+
+            .photo {
+                width: 60%;
+                max-height: 8vh;
+            }
+        }
+
+        .profile-name {
+            padding: 0;
+            margin: auto 0 auto -1.4rem;
+
+            h6 {
+                margin: auto 0 auto 0;
+            }
+        }
+    }
+}
