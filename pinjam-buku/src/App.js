@@ -6,6 +6,7 @@ import Login from './account/Login'
 import Galeri from './user/Galeri'
 import Detail from './user/Detail'
 import Keranjang from './user/Keranjang'
+import Konfirmasi from './user/Konfirmasi'
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path=':id' element={<Detail />} />
         </Route>
         <Route path="keranjang" element={<Keranjang />} />
+        <Route path="konfirmasi" element={<Konfirmasi />} />
       </Routes>
     </div >
   );
