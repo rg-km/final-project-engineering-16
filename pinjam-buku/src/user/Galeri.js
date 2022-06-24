@@ -45,6 +45,7 @@ const Galeri = () => {
                     <Form className="galeri-form">
                         <section className="galeri-input">
                             <InputGroup className="mb-3">
+                                <MdSearch className="icon" />
                                 <FormControl className="input-words" placeholder="Cari buku disini" onChange={(e) => searchTitle(e.target.value)} />
                             </InputGroup><br />
                         </section>
@@ -66,9 +67,8 @@ const Galeri = () => {
                                 </Dropdown.Toggle>
 
                                 <Dropdown.Menu>
-                                    <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                                    <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                                    <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+                                    <Dropdown.Item href="#/action-1">A-Z</Dropdown.Item>
+                                    <Dropdown.Item href="#/action-2">Z-A</Dropdown.Item>
                                 </Dropdown.Menu>
                             </Dropdown>
                         </section>

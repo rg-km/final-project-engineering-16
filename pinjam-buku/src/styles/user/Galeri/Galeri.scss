@@ -16,8 +16,19 @@
             padding: 2rem;
 
             .galeri-input {
+
+                .icon {
+                    width: 2.4%;
+                    height: auto;
+                    z-index: 10;
+                    position: relative;
+                    margin-right: -1.5rem;
+                    color: #898989;
+                }
+
                 .input-words {
-                    border-radius: 10px;
+                    box-sizing: border-box;
+                    padding-left: 1.5rem;
 
                     &:focus {
                         box-shadow: 0px 0px 5px #979797;

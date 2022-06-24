@@ -15,8 +15,17 @@
   margin: auto;
   padding: 2rem;
 }
+.galeri-page .galeri-search .galeri-form .galeri-input .icon {
+  width: 2.4%;
+  height: auto;
+  z-index: 10;
+  position: relative;
+  margin-right: -1.5rem;
+  color: #898989;
+}
 .galeri-page .galeri-search .galeri-form .galeri-input .input-words {
-  border-radius: 10px;
+  box-sizing: border-box;
+  padding-left: 1.5rem;
 }
 .galeri-page .galeri-search .galeri-form .galeri-input .input-words:focus {
   box-shadow: 0px 0px 5px #979797;
