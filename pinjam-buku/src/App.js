@@ -5,6 +5,7 @@ import Home from './user/Home'
 import Login from './account/Login'
 import Galeri from './user/Galeri'
 import Detail from './user/Detail'
+import Keranjang from './user/Keranjang'
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route index element={<Galeri />} />
           <Route path=':id' element={<Detail />} />
         </Route>
+        <Route path="keranjang" element={<Keranjang />} />
       </Routes>
     </div >
   );

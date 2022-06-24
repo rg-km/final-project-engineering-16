@@ -1,0 +1,77 @@
+.cart-page {
+  font-family: "Poppins", sans-serif;
+  padding: 0;
+  margin: auto;
+}
+.cart-page .cart-description .cart-option .option-top {
+  font-weight: 600;
+  line-height: 3rem;
+}
+.cart-page .cart-description .cart-option .option-top .option-logo {
+  width: 3.5%;
+  height: auto;
+}
+.cart-page .cart-description .cart-option .option-book {
+  width: 95%;
+}
+.cart-page .cart-description .cart-option .option-book .option-check .check-logo {
+  width: 2rem;
+  height: auto;
+  color: #5C79C5;
+}
+.cart-page .cart-description .cart-option .option-book .option-check .uncheck-logo {
+  width: 2rem;
+  height: auto;
+  color: #C9C9C9;
+}
+.cart-page .cart-description .cart-option .option-book .option-name {
+  border: 1px #C9C9C9 solid;
+  border-radius: 10px;
+  padding: 1rem;
+  margin: 1rem 0 1rem 0;
+  box-shadow: 0px 4px 4px #C9C9C9;
+}
+.cart-page .cart-description .cart-option .option-book .option-name .name-desc .desc-photo .photo {
+  width: 100%;
+  height: auto;
+}
+.cart-page .cart-description .cart-notes {
+  margin: 2rem 0 0 0;
+}
+.cart-page .cart-description .cart-notes .note-address {
+  border: 1px #C9C9C9 solid;
+  border-radius: 10px;
+  padding: 0.8rem;
+  box-shadow: 2px 4px 4px #C9C9C9;
+}
+.cart-page .cart-description .cart-notes .note-address p {
+  padding: 0;
+  font-size: 14px;
+}
+.cart-page .cart-description .cart-notes .note-address p .location-logo {
+  width: 9%;
+  height: auto;
+}
+.cart-page .cart-description .cart-notes .note-summary {
+  border: 1px #C9C9C9 solid;
+  margin-top: 2rem;
+  border-radius: 10px;
+  padding: 0.8rem;
+  box-shadow: 2px 4px 4px #C9C9C9;
+}
+.cart-page .cart-description .cart-notes .note-summary h6 {
+  padding: 0;
+  font-weight: bold;
+}
+.cart-page .cart-description .cart-notes .note-summary table {
+  font-size: 15px;
+}
+.cart-page .cart-description .cart-notes .note-summary .btn-summary {
+  margin-top: 1rem;
+  background-color: #5C79C5;
+  border-radius: 5px;
+  border: none;
+}
+.cart-page .cart-description .cart-notes .note-summary .btn-summary:hover {
+  font-weight: bold;
+}/*# sourceMappingURL=Keranjang.css.map */
