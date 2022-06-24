@@ -1,12 +1,13 @@
-import React, { useState, Fragment, useEffect } from "react";
+import React, { useState, Fragment} from "react";
 import { Link, useNavigate} from "react-router-dom";
 import axios from 'axios'
 import Header from '../components/Header'
+import {Col} from 'react-bootstrap'
 
 function Login (props) {
     const navigate = useNavigate()
     const [user, setUser] = useState({email: "", password:""})
-    const apiUrl = "https://api-dev.pinjambuku.me/api/v1/auth/login/"
+    const apiUrl = "https://api-dev.pinjambuku.me/api/v1/auth/login"
     const Logins = (e) => {
     e.preventDefault();      
             const data = { email: user.email, password: user.password };    
@@ -19,9 +20,10 @@ function Login (props) {
                 const user =result.data.UserDetails;  
                 console.log(result.data.message);  
                 if (result.data.status == '200')    
-                    navigate("/daftar")   
-                else    
-                alert('Invalid User');    
+                    navigate("/galeri-buku")
+                else {   
+                    alert("Invalid User"); 
+                }   
             })         
   }
 
@@ -35,8 +37,19 @@ function Login (props) {
         <Header />
         <div style={{ marginTop: "50px" }}>
             <div className="container">
-                <div className="row justify-content-end">
-                    <div className="col-md-5">
+                <div className="row">
+                    <div className="col-lg-6 me-5 mb-2">
+                        <Col className="justify-content-start">
+                            <figure className="position-relative logo-regist">
+                                <img src={require("../images/book.png")} className="img-fluid" alt="Gambar"></img>
+                                <figcaption className="text-regist">
+                                    <span>PINJAMBUKU</span><br />
+                                    Platform peminjaman buku perpustakaan dari mana saja dengan mudah.
+                                </figcaption>
+                            </figure>
+                        </Col>
+                    </div>
+                    <div className="col-lg-5 justify-content-start">
                         <div className="card p-4 shadow rounded">
                             <div className="card-body">
                               <div className="row">
@@ -61,7 +74,7 @@ function Login (props) {
                                 </div>
                                  
                                 <p className="forgot-password text-right mt-4 text-end">
-                                    <a href="#" className="text-decoration-none" style={{color: "red"}}>
+                                    <a href="/forgot-pwd" className="text-decoration-none" style={{color: "red"}}>
                                         Lupa Kata Sandi?
                                     </a></p>
                                 
