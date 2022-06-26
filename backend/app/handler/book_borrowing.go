@@ -17,7 +17,7 @@ type Borrowing struct {
 }
 
 type BorrowingStatus struct {
-	ID int64 `json:"id" form:"id"`
+	ID int64 `json:"status_id" form:"status_id"`
 }
 
 type BorrowingController struct {

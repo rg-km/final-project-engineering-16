@@ -120,6 +120,9 @@ func (c BorrowingUsecase) GetAllBorrowingStatus() ([]domains.BorrowingStatus, er
 }
 
 func (c BorrowingUsecase) UpdateBorrowingStatusByID(id int64, statusID int64) (domains.BorrowingWithBook, error) {
+	if id == 0 || statusID == 0 {
+		return domains.BorrowingWithBook{}, exceptions.ErrBadRequest
+	}
 	err := c.BorrowingRepo.UpdateBorrowingStatusByID(id, statusID)
 	if err != nil {
 		return domains.BorrowingWithBook{}, err
