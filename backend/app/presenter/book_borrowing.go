@@ -4,6 +4,11 @@ import (
 	"github.com/rg-km/final-project-engineering-16/backend/domains"
 )
 
+type BorrowingStatus struct {
+	ID     int64  `json:"id"`
+	Status string `json:"status"`
+}
+
 type InsertBorrowing struct {
 	ID            int64      `json:"id"`
 	UserID        int64      `json:"userId"`
@@ -16,22 +21,6 @@ type InsertBorrowing struct {
 	Status        string     `json:"status"`
 	CreatedAt     string     `json:"createdAt,omitempty"`
 	UpdatedAt     string     `json:"updatedAt,omitempty"`
-}
-
-func InsertBorrowingFromDomain(c domains.Borrowing) InsertBorrowing {
-	return InsertBorrowing{
-		ID:            c.ID,
-		UserID:        c.UserID,
-		User:          CreateUserFromDomain(c.User),
-		TotalDeposit:  c.TotalDeposit,
-		TotalCost:     c.TotalCost,
-		BorrowingDate: c.BorrowingDate,
-		DueDate:       c.DueDate,
-		FinishDate:    c.FinishDate,
-		Status:        StatusToString(c.Status),
-		CreatedAt:     c.CreatedAt,
-		UpdatedAt:     c.UpdatedAt,
-	}
 }
 
 type BorrowingWithBook struct {
@@ -74,12 +63,28 @@ func BorrowingFromDomain(b domains.Borrowing) Borrowing {
 	}
 }
 
-func BorrowingListFromDomain(b []domains.Borrowing) []Borrowing {
-	var carts []Borrowing
-	for _, v := range b {
-		carts = append(carts, BorrowingFromDomain(v))
+func InsertBorrowingFromDomain(c domains.Borrowing) InsertBorrowing {
+	return InsertBorrowing{
+		ID:            c.ID,
+		UserID:        c.UserID,
+		User:          CreateUserFromDomain(c.User),
+		TotalDeposit:  c.TotalDeposit,
+		TotalCost:     c.TotalCost,
+		BorrowingDate: c.BorrowingDate,
+		DueDate:       c.DueDate,
+		FinishDate:    c.FinishDate,
+		Status:        StatusToString(c.Status),
+		CreatedAt:     c.CreatedAt,
+		UpdatedAt:     c.UpdatedAt,
 	}
-	return carts
+}
+
+func BorrowingListFromDomain(b []domains.Borrowing) []Borrowing {
+	var borrowings []Borrowing
+	for _, v := range b {
+		borrowings = append(borrowings, BorrowingFromDomain(v))
+	}
+	return borrowings
 }
 
 func BorrowingWithBookFromDomain(b domains.BorrowingWithBook) BorrowingWithBook {
@@ -91,6 +96,17 @@ func BorrowingWithBookFromDomain(b domains.BorrowingWithBook) BorrowingWithBook 
 		Borrowing: InsertBorrowingFromDomain(b.Borrowing),
 		Books:     books,
 	}
+}
+
+func BorrowingStatusListFromDomain(b []domains.BorrowingStatus) []BorrowingStatus {
+	var borrowings []BorrowingStatus
+	for _, v := range b {
+		borrowings = append(borrowings, BorrowingStatus{
+			ID:     v.ID,
+			Status: v.Status,
+		})
+	}
+	return borrowings
 }
 
 func StatusToString(status domains.BorrowingStatus) string {
