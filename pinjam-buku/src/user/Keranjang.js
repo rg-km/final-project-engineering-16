@@ -1,26 +1,54 @@
 import React, { useState, useEffect } from 'react'
 import Header from '../components/Header'
-import { Container, Row, Col, Button } from 'react-bootstrap'
+import { Container, Row, Col, Button, Form } from 'react-bootstrap'
 import { MdOutlineShoppingCart, MdCheckBox, MdCheckBoxOutlineBlank, MdLocationOn } from 'react-icons/md'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import '../styles/user/Keranjang/Keranjang.css'
 
 const API_URL = "https://api-dev.pinjambuku.me/api/v1/cart/"
 
-export default function Keranjang() {
+function Keranjang(props) {
+    const navigate = useNavigate()
+    const getLocal = JSON.parse(localStorage.getItem('myData'))
     const [cartData, setCartData] = useState([])
+    const [checked, setChecked] = useState([])
+    const [countBooks, setCountBooks] = useState(0)
 
     const getCart = () => {
-        axios.get(`${API_URL}`).then((res) => {
+        setCountBooks(0)
+        axios.get(API_URL, {
+            headers: { Authorization: `Bearer${getLocal.token}` }
+        }).then((res) => {
             const booksCart = res.data.data
+            console.log(booksCart)
             setCartData(booksCart)
+        }).catch((err) => {
+            console.log("error get data cart : ", err)
         })
     }
 
+    const handleCheck = item => () => {
+        const clickedCategory = checked.indexOf(item);
+        const idChecked = [...checked];
+
+        if (clickedCategory === -1) {
+            idChecked.push(item);
+        } else {
+            idChecked.splice(clickedCategory, 1);
+        }
+        setChecked(idChecked);
+        // setCountBooks(checked.length + 1)
+    };
+    console.log(checked)
+
     useEffect(() => {
         getCart()
-    }, []);
+    }, [])
+
+    const toKonfirmasi = () => {
+        navigate('/konfirmasi', { state: { cart_id: checked } });
+    }
 
     return (
         <>
@@ -28,13 +56,23 @@ export default function Keranjang() {
             <Container className="cart-page">
                 <Row className="cart-description">
                     <Col xs={12} md={9} className="cart-option">
-                        <h4 className="option-top"><MdOutlineShoppingCart className="option-logo" /> Keranjang</h4>
-                        <h6><b>Perpustakaan Provinsi Kalimantan Timur</b></h6>
+                        <h4 className="option-top"><MdOutlineShoppingCart className="option-logo" /> Keranjang</h4><br />
 
                         {cartData.map(item =>
                             <Row className="option-book" key={item.id}>
+                                <h6><b>{item.book.libraryName}</b></h6>
                                 <Col xs={12} md={1} className="option-check d-flex align-items-center justify-content-center">
-                                    <MdCheckBox className="check-logo " />
+                                    <Form>
+                                        {['checkbox'].map((type) => (
+                                            <div key={`default-${type}`} className="mb-3">
+                                                <Form.Check
+                                                    type={type}
+                                                    value={item.id}
+                                                    onChange={handleCheck(item.id)}
+                                                />
+                                            </div>
+                                        ))}
+                                    </Form>
                                     {/* <MdCheckBoxOutlineBlank className="uncheck-logo " /> */}
                                 </Col>
                                 <Col xs={12} md={11} className="option-name">
@@ -44,10 +82,10 @@ export default function Keranjang() {
                                         </Col>
                                         <Col xs={12} md={10} className="desc-book">
                                             <p>
-                                                {item.title} <br />
-                                                {item.pageNUmber} Halaman <br />
-                                                Penulis : {item.author} <br />
-                                                Deposito : Rp {item.deposit}
+                                                {item.book.title} <br />
+                                                {item.book.pageNUmber} Halaman <br />
+                                                Penulis : {item.book.author} <br />
+                                                Deposito : Rp {item.book.deposit}
                                             </p>
                                         </Col>
                                     </Row>
@@ -67,14 +105,14 @@ export default function Keranjang() {
                             <table>
                                 <tr>
                                     <td>Total pinjam buku</td>
-                                    <td>2</td>
+                                    <td>{countBooks === 0 ? <b>-</b> : countBooks}</td>
                                 </tr>
                                 <tr>
                                     <td>Maks. 3 pcs</td>
                                     <td></td>
                                 </tr>
                             </table>
-                            <Button className="btn-summary" component={Link} href="/konfirmasi">Ajukan Pinjaman Buku</Button>
+                            <Button className="btn-summary" onClick={() => { toKonfirmasi() }}>Ajukan Pinjaman Buku</Button>
                         </Row>
                     </Col>
                 </Row>
@@ -82,3 +120,5 @@ export default function Keranjang() {
         </>
     )
 }
+
+export default Keranjang;
