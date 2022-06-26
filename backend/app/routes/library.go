@@ -53,5 +53,11 @@ func InitRoutesLibrary(db *sql.DB, route *gin.Engine) {
 		{
 			lib.PUT("/borrowing/:id", middleware.AuthorizeJWT(), middleware.AuthMiddleware("library"), borrowingController.UpdateBorrowingStatusByID)
 		}
+		{
+			lib.GET("/borrowing", borrowingController.ShowBorrowingByLibraryID)
+		}
+		{
+			lib.PUT("/borrowing/:id", borrowingController.UpdateBorrowingStatusByID)
+		}
 	}
 }
