@@ -111,13 +111,39 @@ func (c BorrowingUsecase) InsertToBorrowing(userID int64, cartIDs []int64, total
 	}, nil
 }
 
-func (c BorrowingUsecase) DeleteBorrowingByID(id int64) error {
-	if id == 0 {
-		return exceptions.ErrBadRequest
-	}
-	err := c.BorrowingRepo.DeleteBorrowingByID(id)
+func (c BorrowingUsecase) GetAllBorrowingStatus() ([]domains.BorrowingStatus, error) {
+	borrowingStatus, err := c.BorrowingRepo.GetAllBorrowingStatus()
 	if err != nil {
-		return err
+		return nil, err
 	}
-	return nil
+	return borrowingStatus, nil
+}
+
+func (c BorrowingUsecase) UpdateBorrowingStatusByID(id int64, statusID int64) (domains.BorrowingWithBook, error) {
+	err := c.BorrowingRepo.UpdateBorrowingStatusByID(id, statusID)
+	if err != nil {
+		return domains.BorrowingWithBook{}, err
+	}
+
+	if statusID == 4 {
+		err = c.BorrowingRepo.UpdateBorrowingFinishDateByID(id)
+		if err != nil {
+			return domains.BorrowingWithBook{}, err
+		}
+	}
+
+	borrowing, err := c.BorrowingRepo.FetchBorrowingByID(id)
+	if err != nil {
+		return domains.BorrowingWithBook{}, err
+	}
+
+	bookBorrowingList, err := c.BorrowingRepo.FetchBookListByBorrowingID(id)
+	if err != nil {
+		return domains.BorrowingWithBook{}, err
+	}
+
+	return domains.BorrowingWithBook{
+		Borrowing: borrowing,
+		Books:     bookBorrowingList,
+	}, nil
 }
