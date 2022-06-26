@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"time"
 
+	"github.com/rg-km/final-project-engineering-16/backend/commons/exceptions"
 	domains "github.com/rg-km/final-project-engineering-16/backend/domains"
 )
 
@@ -44,6 +45,9 @@ func (u *BorrowingRepository) FetchBorrowingByID(id int64) (domains.Borrowing, e
 	)
 
 	if err != nil {
+		if err == sql.ErrNoRows {
+			return borrowing, exceptions.ErrBorrowingNotFound
+		}
 		return domains.Borrowing{}, err
 	}
 
