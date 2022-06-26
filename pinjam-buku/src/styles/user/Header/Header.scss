@@ -1,14 +1,14 @@
 .navbar {
     font-family: 'Poppins', sans-serif;
 
-    .nav {
+    .container {
         .logo {
             color: #5C79C5;
             font-weight: 900;
             font-size: 1.5rem;
         }
 
-        .collapse {
+        .navbar-collapse {
 
             .nav-link {
                 color: black;
@@ -30,6 +30,7 @@
                     border: #5C79C5 solid 1px;
                     box-shadow: 0 4px 5px -2px #969696;
                     letter-spacing: 1px;
+
                     &:hover {
                         background-color: #ececec;
                     }
@@ -42,10 +43,23 @@
                     border-radius: 10px;
                     box-shadow: 0 4px 5px -2px #969696;
                     letter-spacing: 1px;
+
                     &:hover {
                         background-color: #90a8e6;
                         border: #90a8e6 solid 1px;
                     }
+                }
+
+
+                .icon-size {
+                    width: 1.4rem;
+                    height: auto;
+                    color: #707070;
+                }
+
+                .icon-profile {
+                    width: 2rem;
+                    height: 2rem;
                 }
 
             }
