@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"time"
 
+	"github.com/rg-km/final-project-engineering-16/backend/commons/exceptions"
 	domains "github.com/rg-km/final-project-engineering-16/backend/domains"
 )
 
@@ -44,6 +45,9 @@ func (u *BorrowingRepository) FetchBorrowingByID(id int64) (domains.Borrowing, e
 	)
 
 	if err != nil {
+		if err == sql.ErrNoRows {
+			return borrowing, exceptions.ErrBorrowingNotFound
+		}
 		return domains.Borrowing{}, err
 	}
 
@@ -94,12 +98,14 @@ func (u *BorrowingRepository) FetchBookListByBorrowingID(borrowingID int64) ([]d
 
 func (u *BorrowingRepository) FetchBorrowingByUserID(userID int64) ([]domains.Borrowing, error) {
 	sqlStmt := `SELECT 
-		bb.id, bb.user_id, bb.status_id, bb.total_cost, bb.borrowing_date, bb.due_date, bb.finish_date, 
+		bb.id, bb.user_id, bb.status_id, bb.total_cost, bb.total_deposit, bb.borrowing_date, bb.due_date, bb.finish_date, 
+		u.id, u.fullname, u.email,
 		bs.status,
-		b.id, b.title, b.stock, b.deposit,
-		l.id, l.name, l.address
+		b.id, b.title, b.stock, b.deposit, b.cover,
+		l.id, l.name, l.email, l.address
 	FROM book_borrowing bb
 	INNER JOIN book_borrowing_list bbl ON bb.id = bbl.borrowing_id
+	INNER JOIN users u ON bb.user_id = u.id
 	INNER JOIN borrowing_status bs ON bb.status_id = bs.id
 	INNER JOIN books b ON bbl.book_id = b.id
 	INNER JOIN libraries l ON b.library_id = l.id
@@ -120,16 +126,81 @@ func (u *BorrowingRepository) FetchBorrowingByUserID(userID int64) ([]domains.Bo
 			&borrowing.UserID,
 			&borrowing.StatusID,
 			&borrowing.TotalCost,
+			&borrowing.TotalDeposit,
 			&borrowing.BorrowingDate,
 			&borrowing.DueDate,
 			&borrowing.FinishDate,
-			&borrowing.Status,
+			&borrowing.User.ID,
+			&borrowing.User.Fullname,
+			&borrowing.User.Email,
+			&borrowing.Status.Status,
 			&borrowing.Book.ID,
 			&borrowing.Book.Title,
 			&borrowing.Book.Stock,
 			&borrowing.Book.Deposit,
+			&borrowing.Book.Cover,
 			&borrowing.Library.ID,
 			&borrowing.Library.Name,
+			&borrowing.Library.Email,
+			&borrowing.Library.Address,
+		)
+
+		if err != nil {
+			return nil, err
+		}
+
+		book_borrowing = append(book_borrowing, borrowing)
+	}
+
+	return book_borrowing, nil
+}
+
+func (u *BorrowingRepository) FetchBorrowingByLibraryID(libraryID int64) ([]domains.Borrowing, error) {
+	sqlStmt := `SELECT 
+		bb.id, bb.user_id, bb.status_id, bb.total_cost, bb.total_deposit, bb.borrowing_date, bb.due_date, bb.finish_date, 
+		u.id, u.fullname, u.email,
+		bs.status,
+		b.id, b.title, b.stock, b.deposit, b.cover,
+		l.id, l.name, l.email, l.address
+	FROM book_borrowing bb
+	INNER JOIN book_borrowing_list bbl ON bb.id = bbl.borrowing_id
+	INNER JOIN users u ON bb.user_id = u.id
+	INNER JOIN borrowing_status bs ON bb.status_id = bs.id
+	INNER JOIN books b ON bbl.book_id = b.id
+	INNER JOIN libraries l ON b.library_id = l.id
+	WHERE b.library_id = ?`
+
+	book_borrowing := []domains.Borrowing{}
+
+	rows, err := u.db.Query(sqlStmt, libraryID)
+	if err != nil {
+		return nil, err
+	}
+
+	for rows.Next() {
+		borrowing := domains.Borrowing{}
+
+		err := rows.Scan(
+			&borrowing.ID,
+			&borrowing.UserID,
+			&borrowing.StatusID,
+			&borrowing.TotalCost,
+			&borrowing.TotalDeposit,
+			&borrowing.BorrowingDate,
+			&borrowing.DueDate,
+			&borrowing.FinishDate,
+			&borrowing.User.ID,
+			&borrowing.User.Fullname,
+			&borrowing.User.Email,
+			&borrowing.Status.Status,
+			&borrowing.Book.ID,
+			&borrowing.Book.Title,
+			&borrowing.Book.Stock,
+			&borrowing.Book.Deposit,
+			&borrowing.Book.Cover,
+			&borrowing.Library.ID,
+			&borrowing.Library.Name,
+			&borrowing.Library.Email,
 			&borrowing.Library.Address,
 		)
 
@@ -198,4 +269,54 @@ func (u *BorrowingRepository) DeleteBorrowingByID(id int64) error {
 	}
 
 	return nil
+}
+
+func (b *BorrowingRepository) UpdateBorrowingStatusByID(id int64, statusID int64) error {
+	sqlStmt := `UPDATE book_borrowing SET status_id = ? WHERE id = ?`
+
+	_, err := b.db.Exec(sqlStmt, statusID, id)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (b *BorrowingRepository) UpdateBorrowingFinishDateByID(id int64) error {
+	sqlStmt := `UPDATE book_borrowing SET finish_date = ? WHERE id = ?`
+
+	_, err := b.db.Exec(sqlStmt, time.Now(), id)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (b *BorrowingRepository) GetAllBorrowingStatus() ([]domains.BorrowingStatus, error) {
+	sqlStmt := `SELECT id, status FROM borrowing_status`
+
+	borrowingStatus := []domains.BorrowingStatus{}
+
+	rows, err := b.db.Query(sqlStmt)
+	if err != nil {
+		return nil, err
+	}
+
+	for rows.Next() {
+		status := domains.BorrowingStatus{}
+
+		err := rows.Scan(
+			&status.ID,
+			&status.Status,
+		)
+
+		if err != nil {
+			return nil, err
+		}
+
+		borrowingStatus = append(borrowingStatus, status)
+	}
+
+	return borrowingStatus, nil
 }

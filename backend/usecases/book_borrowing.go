@@ -10,15 +10,33 @@ import (
 type BorrowingUsecase struct {
 	BorrowingRepo domains.BorrowingRepository
 	BookRepo      domains.BookRepository
-	CartRepo 	  domains.CartRepository
+	CartRepo      domains.CartRepository
 }
 
 func NewBorrowingUsecase(borrowingRepo domains.BorrowingRepository, bookRepo domains.BookRepository, cartRepo domains.CartRepository) BorrowingUsecase {
 	return BorrowingUsecase{
 		BorrowingRepo: borrowingRepo,
 		BookRepo:      bookRepo,
-		CartRepo: 	   cartRepo,
+		CartRepo:      cartRepo,
 	}
+}
+
+func (b BorrowingUsecase) FetchBorrowingByID(id int64) (domains.BorrowingWithBook, error) {
+	if id == 0 {
+		return domains.BorrowingWithBook{}, exceptions.ErrBadRequest
+	}
+	borrowing, err := b.BorrowingRepo.FetchBorrowingByID(id)
+	if err != nil {
+		return domains.BorrowingWithBook{}, err
+	}
+	bookBorrowingList, err := b.BorrowingRepo.FetchBookListByBorrowingID(id)
+	if err != nil {
+		return domains.BorrowingWithBook{}, err
+	}
+	return domains.BorrowingWithBook{
+		Borrowing: borrowing,
+		Books:     bookBorrowingList,
+	}, nil
 }
 
 func (c BorrowingUsecase) ShowBorrowingByUserID(userID int64) ([]domains.Borrowing, error) {
@@ -30,6 +48,17 @@ func (c BorrowingUsecase) ShowBorrowingByUserID(userID int64) ([]domains.Borrowi
 		return nil, err
 	}
 	return carts, nil
+}
+
+func (c BorrowingUsecase) ShowBorrowingByLibraryID(libraryID int64) ([]domains.Borrowing, error) {
+	if libraryID == 0 {
+		return nil, exceptions.ErrBadRequest
+	}
+	borrowings, err := c.BorrowingRepo.FetchBorrowingByLibraryID(libraryID)
+	if err != nil {
+		return nil, err
+	}
+	return borrowings, nil
 }
 
 func (c BorrowingUsecase) InsertToBorrowing(userID int64, cartIDs []int64, totalCost int64) (domains.BorrowingWithBook, error) {
@@ -82,13 +111,42 @@ func (c BorrowingUsecase) InsertToBorrowing(userID int64, cartIDs []int64, total
 	}, nil
 }
 
-func (c BorrowingUsecase) DeleteBorrowingByID(id int64) error {
-	if id == 0 {
-		return exceptions.ErrBadRequest
-	}
-	err := c.BorrowingRepo.DeleteBorrowingByID(id)
+func (c BorrowingUsecase) GetAllBorrowingStatus() ([]domains.BorrowingStatus, error) {
+	borrowingStatus, err := c.BorrowingRepo.GetAllBorrowingStatus()
 	if err != nil {
-		return err
+		return nil, err
 	}
-	return nil
+	return borrowingStatus, nil
+}
+
+func (c BorrowingUsecase) UpdateBorrowingStatusByID(id int64, statusID int64) (domains.BorrowingWithBook, error) {
+	if id == 0 || statusID == 0 {
+		return domains.BorrowingWithBook{}, exceptions.ErrBadRequest
+	}
+	err := c.BorrowingRepo.UpdateBorrowingStatusByID(id, statusID)
+	if err != nil {
+		return domains.BorrowingWithBook{}, err
+	}
+
+	if statusID == 4 {
+		err = c.BorrowingRepo.UpdateBorrowingFinishDateByID(id)
+		if err != nil {
+			return domains.BorrowingWithBook{}, err
+		}
+	}
+
+	borrowing, err := c.BorrowingRepo.FetchBorrowingByID(id)
+	if err != nil {
+		return domains.BorrowingWithBook{}, err
+	}
+
+	bookBorrowingList, err := c.BorrowingRepo.FetchBookListByBorrowingID(id)
+	if err != nil {
+		return domains.BorrowingWithBook{}, err
+	}
+
+	return domains.BorrowingWithBook{
+		Borrowing: borrowing,
+		Books:     bookBorrowingList,
+	}, nil
 }

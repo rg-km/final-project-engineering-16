@@ -27,6 +27,7 @@ func main() {
 	routes.InitRoutesCart(db, router)
 	routes.InitRoutesLibrary(db, router)
 	routes.InitRoutesUser(db, router)
+	routes.InitRoutesBorrowing(db, router)
 
 	err = router.Run(":" + "8080")
 	if err != nil {
