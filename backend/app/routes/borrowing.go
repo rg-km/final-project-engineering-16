@@ -30,9 +30,8 @@ func InitRoutesBorrowing(db *sql.DB, route *gin.Engine) {
 		{
 			borrowing.GET("/:id", borrowingController.GetBorrowingByID)
 		}
-		// cart.POST("/", cartController.InsertToCart)
-		// cart.POST("/checkout", borrowingController.InsertToBorrowing)
-		// cart.DELETE("/:id", cartController.DeleteCartByID)
-		// }
+		{
+			borrowing.GET("/status", borrowingController.GetAllBorrowingStatus)
+		}
 	}
 }

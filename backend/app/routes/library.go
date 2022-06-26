@@ -33,9 +33,6 @@ func InitRoutesLibrary(db *sql.DB, route *gin.Engine) {
 			lib.GET("/:id", libraryController.GetLibraryByID)
 		}
 		{
-			lib.GET("/borrowing", borrowingController.ShowBorrowingByLibraryID)
-		}
-		{
 			lib.PUT("/:id", middleware.ValidateIDMiddleware(), libraryController.UpdateLibraryProfileByID)
 		}
 		{
@@ -47,6 +44,11 @@ func InitRoutesLibrary(db *sql.DB, route *gin.Engine) {
 		{
 			lib.PUT("/book/:id", middleware.ValidateIDMiddleware(), libraryController.UpdateBook)
 		}
+		{
+			lib.GET("/borrowing", borrowingController.ShowBorrowingByLibraryID)
+		}
+		{
+			lib.PUT("/borrowing/:id", borrowingController.UpdateBorrowingStatusByID)
+		}
 	}
-
 }

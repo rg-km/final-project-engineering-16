@@ -16,6 +16,10 @@ type Borrowing struct {
 	CartIDs   []int64 `json:"cart_ids" form:"cart_ids"`
 }
 
+type BorrowingStatus struct {
+	ID int64 `json:"id" form:"id"`
+}
+
 type BorrowingController struct {
 	borrowingUsecase domains.BorrowingUsecase
 }
@@ -120,4 +124,56 @@ func (bc BorrowingController) InsertToBorrowing(c *gin.Context) {
 	resFromDomain := presenter.BorrowingWithBookFromDomain(res)
 
 	presenter.SuccessResponse(c, http.StatusCreated, resFromDomain)
+}
+
+func (bc BorrowingController) UpdateBorrowingStatusByID(c *gin.Context) {
+	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
+	fmt.Printf("%v", id)
+	if err != nil {
+		presenter.ErrorResponse(c, http.StatusBadRequest, exceptions.ErrBadRequest)
+		return
+	}
+
+	req := BorrowingStatus{}
+	if err := c.Bind(&req); err != nil {
+		presenter.ErrorResponse(c, http.StatusBadRequest, exceptions.ErrBadRequest)
+		return
+	}
+
+	res, err := bc.borrowingUsecase.UpdateBorrowingStatusByID(id, req.ID)
+	if err != nil {
+		if err == exceptions.ErrBadRequest {
+			presenter.ErrorResponse(c, http.StatusBadRequest, exceptions.ErrBadRequest)
+			return
+		} else if err == exceptions.ErrUnauthorized {
+			presenter.ErrorResponse(c, http.StatusUnauthorized, exceptions.ErrUnauthorized)
+			return
+		} else if err == exceptions.ErrBorrowingNotFound {
+			presenter.ErrorResponse(c, http.StatusNotFound, exceptions.ErrBorrowingNotFound)
+			return
+		}
+		presenter.ErrorResponse(c, http.StatusInternalServerError, exceptions.ErrInternalServerError)
+		return
+	}
+	resFromDomain := presenter.BorrowingWithBookFromDomain(res)
+
+	presenter.SuccessResponse(c, http.StatusOK, resFromDomain)
+}
+
+func (bc BorrowingController) GetAllBorrowingStatus(c *gin.Context) {
+	res, err := bc.borrowingUsecase.GetAllBorrowingStatus()
+	if err != nil {
+		if err == exceptions.ErrBadRequest {
+			presenter.ErrorResponse(c, http.StatusBadRequest, exceptions.ErrBadRequest)
+			return
+		} else if err == exceptions.ErrUnauthorized {
+			presenter.ErrorResponse(c, http.StatusUnauthorized, exceptions.ErrUnauthorized)
+			return
+		}
+		presenter.ErrorResponse(c, http.StatusInternalServerError, exceptions.ErrInternalServerError)
+		return
+	}
+	resFromDomain := presenter.BorrowingStatusListFromDomain(res)
+
+	presenter.SuccessResponse(c, http.StatusOK, resFromDomain)
 }
