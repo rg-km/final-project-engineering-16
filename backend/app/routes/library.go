@@ -36,7 +36,7 @@ func InitRoutesLibrary(db *sql.DB, route *gin.Engine) {
 			lib.PUT("/:id", middleware.AuthorizeJWT(), middleware.AuthMiddleware("library"), middleware.ValidateIDMiddleware(), libraryController.UpdateLibraryProfileByID)
 		}
 		{
-			lib.GET("/borrowing", borrowingController.ShowBorrowingByLibraryID)
+			lib.GET("/borrowing", middleware.AuthorizeJWT(), middleware.AuthMiddleware("library"), borrowingController.ShowBorrowingByLibraryID)
 		}
 		{
 			lib.GET("/book/:id", middleware.AuthorizeJWT(), middleware.AuthMiddleware("library"), middleware.ValidateIDMiddleware(), libraryController.GetAllBookById)
@@ -47,6 +47,11 @@ func InitRoutesLibrary(db *sql.DB, route *gin.Engine) {
 		{
 			lib.PUT("/book/:id", middleware.AuthorizeJWT(), middleware.AuthMiddleware("library"), middleware.ValidateIDMiddleware(), libraryController.UpdateBook)
 		}
+		{
+			lib.GET("/borrowing", middleware.AuthorizeJWT(), middleware.AuthMiddleware("library"), borrowingController.ShowBorrowingByLibraryID)
+		}
+		{
+			lib.PUT("/borrowing/:id", middleware.AuthorizeJWT(), middleware.AuthMiddleware("library"), borrowingController.UpdateBorrowingStatusByID)
+		}
 	}
-
 }
