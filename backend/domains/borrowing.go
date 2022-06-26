@@ -36,6 +36,7 @@ type BorrowingRepository interface {
 }
 
 type BorrowingUsecase interface {
+	FetchBorrowingByID(id int64) (BorrowingWithBook, error)
 	ShowBorrowingByUserID(id int64) ([]Borrowing, error)
 	InsertToBorrowing(userID int64, cartIDs []int64, totalCost int64) (BorrowingWithBook, error)
 	DeleteBorrowingByID(id int64) error

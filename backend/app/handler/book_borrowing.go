@@ -3,6 +3,7 @@ package handler
 import (
 	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/rg-km/final-project-engineering-16/backend/app/presenter"
@@ -15,12 +16,6 @@ type Borrowing struct {
 	CartIDs   []int64 `json:"cart_ids" form:"cart_ids"`
 }
 
-// func (r Borrowing) ToBorrowingDomain() domains.Borrowing {
-// 	return domains.Borrowing{
-// 		TotalCost: r.TotalCost,
-// 	}
-// }
-
 type BorrowingController struct {
 	borrowingUsecase domains.BorrowingUsecase
 }
@@ -31,34 +26,35 @@ func NewBorrowingController(borrowingUsecase domains.BorrowingUsecase) Borrowing
 	}
 }
 
-// func (bc BorrowingController) GetBorrowingByID(c *gin.Context) {
-// 	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
-// 	if err != nil {
-// 		presenter.ErrorResponse(c, http.StatusBadRequest, exceptions.ErrBadRequest)
-// 		return
-// 	}
+func (bc BorrowingController) GetBorrowingByID(c *gin.Context) {
+	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
+	if err != nil {
+		presenter.ErrorResponse(c, http.StatusBadRequest, exceptions.ErrBadRequest)
+		return
+	}
 
-// 	cart, err := bc.borrowingUsecase.GetBorrowingByID(id)
-// 	if err != nil {
-// 		if err == exceptions.ErrBadRequest {
-// 				presenter.ErrorResponse(c, http.StatusBadRequest, exceptions.ErrBadRequest)
-// 				return
-// 			} else if err == exceptions.ErrUnauthorized {
-// 				presenter.ErrorResponse(c, http.StatusUnauthorized, exceptions.ErrUnauthorized)
-// 				return
-// 			} else if err == exceptions.ErrBorrowingNotFound {
-// 				presenter.ErrorResponse(c, http.StatusNotFound, exceptions.ErrBorrowingNotFound)
-// 				return
-// 			}
-// 			presenter.ErrorResponse(c, http.StatusInternalServerError, exceptions.ErrInternalServerError)
-// 			return
-// 		}
-// 	resFromDomain := presenter.BorrowingFromDomain(cart)
-// 	presenter.SuccessResponse(c, http.StatusOK, resFromDomain)
-// }
+	borrowing, err := bc.borrowingUsecase.FetchBorrowingByID(id)
+	if err != nil {
+		if err == exceptions.ErrBadRequest {
+			presenter.ErrorResponse(c, http.StatusBadRequest, exceptions.ErrBadRequest)
+			return
+		} else if err == exceptions.ErrUnauthorized {
+			presenter.ErrorResponse(c, http.StatusUnauthorized, exceptions.ErrUnauthorized)
+			return
+		} else if err == exceptions.ErrBorrowingNotFound {
+			presenter.ErrorResponse(c, http.StatusNotFound, exceptions.ErrBorrowingNotFound)
+			return
+		}
+		presenter.ErrorResponse(c, http.StatusInternalServerError, exceptions.ErrInternalServerError)
+		return
+	}
+	resFromDomain := presenter.BorrowingWithBookFromDomain(borrowing)
+	presenter.SuccessResponse(c, http.StatusOK, resFromDomain)
+}
 
 func (bc BorrowingController) ShowBorrowingByUserID(c *gin.Context) {
 	userID := int64(c.Keys["id"].(float64))
+	fmt.Printf("userID: %v", userID)
 	res, err := bc.borrowingUsecase.ShowBorrowingByUserID(userID)
 	if err != nil {
 		fmt.Printf("%v", err)

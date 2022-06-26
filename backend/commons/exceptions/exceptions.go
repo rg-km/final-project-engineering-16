@@ -21,4 +21,6 @@ var (
 	ErrCartNotFound = errors.New("cart not found")
 	// ErrCartAlreadyExists is thrown when the cart already exists
 	ErrCartAlreadyExists = errors.New("cart already exists")
+	// ErrBorrowingNotFound is thrown when the borrowing is not found
+	ErrBorrowingNotFound = errors.New("borrowing not found")
 )

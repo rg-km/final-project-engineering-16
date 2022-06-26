@@ -12,8 +12,6 @@ import (
 
 func InitRoutesBorrowing(db *sql.DB, route *gin.Engine) {
 	cartRepository := repository.NewCartRepository(db)
-	// cartUsecase := usecases.NewCartUsecase(cartRepository)
-	// cartController := handler.NewCartController(cartUsecase)
 
 	borrowingRepository := repository.NewBorrowingRepository(db)
 	bookRepository := repository.NewBookRepository(db)
@@ -24,10 +22,15 @@ func InitRoutesBorrowing(db *sql.DB, route *gin.Engine) {
 	{
 		borrowing := apiv1.Group("/borrowing")
 		{
-			borrowing.Use(middleware.AuthorizeJWT(), middleware.AuthMiddleware("user"))
-			borrowing.GET("/", borrowingController.ShowBorrowingByUserID)
+			showAll := borrowing.Group("/")
+			showAll.Use(middleware.AuthorizeJWT(), middleware.AuthMiddleware("user"))
+			{
+				showAll.GET("/", borrowingController.ShowBorrowingByUserID)
+			}
 		}
-		// cart.GET("/:id", cartController.GetCartByID)
+		{
+			borrowing.GET("/:id", borrowingController.GetBorrowingByID)
+		}
 		// cart.POST("/", cartController.InsertToCart)
 		// cart.POST("/checkout", borrowingController.InsertToBorrowing)
 		// cart.DELETE("/:id", cartController.DeleteCartByID)

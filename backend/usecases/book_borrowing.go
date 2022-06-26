@@ -10,15 +10,33 @@ import (
 type BorrowingUsecase struct {
 	BorrowingRepo domains.BorrowingRepository
 	BookRepo      domains.BookRepository
-	CartRepo 	  domains.CartRepository
+	CartRepo      domains.CartRepository
 }
 
 func NewBorrowingUsecase(borrowingRepo domains.BorrowingRepository, bookRepo domains.BookRepository, cartRepo domains.CartRepository) BorrowingUsecase {
 	return BorrowingUsecase{
 		BorrowingRepo: borrowingRepo,
 		BookRepo:      bookRepo,
-		CartRepo: 	   cartRepo,
+		CartRepo:      cartRepo,
 	}
+}
+
+func (b BorrowingUsecase) FetchBorrowingByID(id int64) (domains.BorrowingWithBook, error) {
+	if id == 0 {
+		return domains.BorrowingWithBook{}, exceptions.ErrBadRequest
+	}
+	borrowing, err := b.BorrowingRepo.FetchBorrowingByID(id)
+	if err != nil {
+		return domains.BorrowingWithBook{}, err
+	}
+	bookBorrowingList, err := b.BorrowingRepo.FetchBookListByBorrowingID(id)
+	if err != nil {
+		return domains.BorrowingWithBook{}, err
+	}
+	return domains.BorrowingWithBook{
+		Borrowing: borrowing,
+		Books:     bookBorrowingList,
+	}, nil
 }
 
 func (c BorrowingUsecase) ShowBorrowingByUserID(userID int64) ([]domains.Borrowing, error) {
