@@ -3,6 +3,7 @@ import Header from '../components/Header';
 import { Container, Row, Col, Nav, Button, Table } from 'react-bootstrap'
 import { Link } from 'react-router-dom';
 import HeaderDashboard from '../components/HeaderDashboard';
+import Sidebar from '../components/Sidebar';
 import '../styles/user/Status/Status.css';
 
 const Status = () => {
@@ -13,12 +14,7 @@ const Status = () => {
             <HeaderDashboard />
             <Container className="profile-content">
                 <Row className="profile-bottom">
-                    <Col className="content-sidebar" xs={3} md={3}>
-                        <Nav.Link href="/profile" className="side-nav" component={Link}>Profile</Nav.Link>
-                        <Nav.Link href="/status-peminjaman" className="side-nav nav-active" component={Link}>Status Peminjaman</Nav.Link>
-                        <Nav.Link href="/history-peminjaman" className="side-nav" component={Link}>History Peminjaman</Nav.Link>
-                        <Nav.Link href="/keluar" className="side-nav side-logout" component={Link}>Logout</Nav.Link>
-                    </Col>
+                    <Sidebar />
                     <Col className="content-data" xs={9} md={9}>
                         <h5>Status Peminjaman</h5>
 
