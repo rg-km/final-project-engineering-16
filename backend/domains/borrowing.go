@@ -30,6 +30,7 @@ type BorrowingWithBook struct {
 type BorrowingRepository interface {
 	FetchBorrowingByID(id int64) (Borrowing, error)
 	FetchBorrowingByUserID(userID int64) ([]Borrowing, error)
+	FetchBorrowingByLibraryID(libraryID int64) ([]Borrowing, error)
 	FetchBookListByBorrowingID(borrowingID int64) ([]Book, error)
 	InsertToBorrowing(userID int64, bookID []int64, totalDeposit int64, totalCost int64) (Borrowing, error)
 	DeleteBorrowingByID(id int64) error
@@ -38,6 +39,7 @@ type BorrowingRepository interface {
 type BorrowingUsecase interface {
 	FetchBorrowingByID(id int64) (BorrowingWithBook, error)
 	ShowBorrowingByUserID(id int64) ([]Borrowing, error)
+	ShowBorrowingByLibraryID(libraryID int64) ([]Borrowing, error)
 	InsertToBorrowing(userID int64, cartIDs []int64, totalCost int64) (BorrowingWithBook, error)
 	DeleteBorrowingByID(id int64) error
 }
