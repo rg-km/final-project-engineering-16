@@ -44,7 +44,10 @@ export default function Detail() {
                     title: 'Buku berhasil ditambahkan!'
                 })
             }).catch((err) => {
-                console.log("error adding book to cart", err)
+                Toast.fire({
+                    icon: 'warning',
+                    title: 'Buku sudah ada dikeranjang!'
+                })
             })
     };
 
