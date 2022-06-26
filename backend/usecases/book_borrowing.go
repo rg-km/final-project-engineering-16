@@ -50,6 +50,17 @@ func (c BorrowingUsecase) ShowBorrowingByUserID(userID int64) ([]domains.Borrowi
 	return carts, nil
 }
 
+func (c BorrowingUsecase) ShowBorrowingByLibraryID(libraryID int64) ([]domains.Borrowing, error) {
+	if libraryID == 0 {
+		return nil, exceptions.ErrBadRequest
+	}
+	borrowings, err := c.BorrowingRepo.FetchBorrowingByLibraryID(libraryID)
+	if err != nil {
+		return nil, err
+	}
+	return borrowings, nil
+}
+
 func (c BorrowingUsecase) InsertToBorrowing(userID int64, cartIDs []int64, totalCost int64) (domains.BorrowingWithBook, error) {
 	if userID == 0 {
 		return domains.BorrowingWithBook{}, exceptions.ErrBadRequest

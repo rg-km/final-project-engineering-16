@@ -11,10 +11,9 @@ import (
 )
 
 func InitRoutesBorrowing(db *sql.DB, route *gin.Engine) {
-	cartRepository := repository.NewCartRepository(db)
-
-	borrowingRepository := repository.NewBorrowingRepository(db)
 	bookRepository := repository.NewBookRepository(db)
+	cartRepository := repository.NewCartRepository(db)
+	borrowingRepository := repository.NewBorrowingRepository(db)
 	borrowingUsecase := usecases.NewBorrowingUsecase(borrowingRepository, bookRepository, cartRepository)
 	borrowingController := handler.NewBorrowingController(borrowingUsecase)
 

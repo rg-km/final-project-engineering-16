@@ -73,6 +73,26 @@ func (bc BorrowingController) ShowBorrowingByUserID(c *gin.Context) {
 	presenter.SuccessResponse(c, http.StatusOK, resFromDomain)
 }
 
+func (bc BorrowingController) ShowBorrowingByLibraryID(c *gin.Context) {
+	libraryID := int64(c.Keys["id"].(float64))
+	res, err := bc.borrowingUsecase.ShowBorrowingByLibraryID(libraryID)
+	if err != nil {
+		fmt.Printf("%v", err)
+		if err == exceptions.ErrBadRequest {
+			presenter.ErrorResponse(c, http.StatusBadRequest, exceptions.ErrBadRequest)
+			return
+		} else if err == exceptions.ErrUnauthorized {
+			presenter.ErrorResponse(c, http.StatusUnauthorized, exceptions.ErrUnauthorized)
+			return
+		}
+		presenter.ErrorResponse(c, http.StatusInternalServerError, exceptions.ErrInternalServerError)
+		return
+	}
+	resFromDomain := presenter.BorrowingListFromDomain(res)
+
+	presenter.SuccessResponse(c, http.StatusOK, resFromDomain)
+}
+
 func (bc BorrowingController) InsertToBorrowing(c *gin.Context) {
 	req := Borrowing{}
 	if err := c.Bind(&req); err != nil {

@@ -12,7 +12,12 @@ import (
 )
 
 func InitRoutesLibrary(db *sql.DB, route *gin.Engine) {
-	// tokenAuthService := middleware.JWTAuthService()
+	bookRepository := repository.NewBookRepository(db)
+	cartRepository := repository.NewCartRepository(db)
+	borrowingRepository := repository.NewBorrowingRepository(db)
+	borrowingUsecase := usecases.NewBorrowingUsecase(borrowingRepository, bookRepository, cartRepository)
+	borrowingController := handler.NewBorrowingController(borrowingUsecase)
+
 	libraryRepository := repository.NewLibraryRepository(db)
 	libraryUsecase := usecases.NewLibraryUsecase(libraryRepository)
 	libraryController := handler.NewLibraryController(&libraryUsecase)
@@ -29,6 +34,9 @@ func InitRoutesLibrary(db *sql.DB, route *gin.Engine) {
 		}
 		{
 			lib.PUT("/:id", middleware.AuthorizeJWT(), middleware.AuthMiddleware("library"), middleware.ValidateIDMiddleware(), libraryController.UpdateLibraryProfileByID)
+		}
+		{
+			lib.GET("/borrowing", borrowingController.ShowBorrowingByLibraryID)
 		}
 		{
 			lib.GET("/book/:id", middleware.AuthorizeJWT(), middleware.AuthMiddleware("library"), middleware.ValidateIDMiddleware(), libraryController.GetAllBookById)
