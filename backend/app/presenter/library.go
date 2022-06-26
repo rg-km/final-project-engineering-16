@@ -7,11 +7,11 @@ type Library struct {
 	Name          string `json:"name"`
 	Email         string `json:"email"`
 	Address       string `json:"address"`
-	PhoneNumber   string `json:"phone_number"`
-	Photo         string `json:"picture_profile"`
-	AccountNumber string `json:"account_number"`
-	AccountName   string `json:"account_name"`
-	BankName      string `json:"bank_name"`
+	PhoneNumber   string `json:"phone_number,omitempty"`
+	Photo         string `json:"picture_profile,omitempty"`
+	AccountNumber string `json:"account_number,omitempty"`
+	AccountName   string `json:"account_name,omitempty"`
+	BankName      string `json:"bank_name,omitempty"`
 }
 
 type UpdateLibrary struct {

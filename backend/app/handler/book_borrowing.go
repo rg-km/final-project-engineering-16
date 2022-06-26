@@ -57,24 +57,25 @@ func NewBorrowingController(borrowingUsecase domains.BorrowingUsecase) Borrowing
 // 	presenter.SuccessResponse(c, http.StatusOK, resFromDomain)
 // }
 
-// func (bc BorrowingController) ShowBorrowingByUserID(c *gin.Context) {
-// 	userID := int64(c.Keys["id"].(float64))
-// 	res, err := bc.borrowingUsecase.ShowBorrowingByUserID(userID)
-// 	if err != nil {
-// 		if err == exceptions.ErrBadRequest {
-// 			presenter.ErrorResponse(c, http.StatusBadRequest, exceptions.ErrBadRequest)
-// 			return
-// 		} else if err == exceptions.ErrUnauthorized {
-// 			presenter.ErrorResponse(c, http.StatusUnauthorized, exceptions.ErrUnauthorized)
-// 			return
-// 		}
-// 		presenter.ErrorResponse(c, http.StatusInternalServerError, exceptions.ErrInternalServerError)
-// 		return
-// 	}
-// 	resFromDomain := presenter.BorrowingListFromDomain(res)
+func (bc BorrowingController) ShowBorrowingByUserID(c *gin.Context) {
+	userID := int64(c.Keys["id"].(float64))
+	res, err := bc.borrowingUsecase.ShowBorrowingByUserID(userID)
+	if err != nil {
+		fmt.Printf("%v", err)
+		if err == exceptions.ErrBadRequest {
+			presenter.ErrorResponse(c, http.StatusBadRequest, exceptions.ErrBadRequest)
+			return
+		} else if err == exceptions.ErrUnauthorized {
+			presenter.ErrorResponse(c, http.StatusUnauthorized, exceptions.ErrUnauthorized)
+			return
+		}
+		presenter.ErrorResponse(c, http.StatusInternalServerError, exceptions.ErrInternalServerError)
+		return
+	}
+	resFromDomain := presenter.BorrowingListFromDomain(res)
 
-// 	presenter.SuccessResponse(c, http.StatusOK, resFromDomain)
-// }
+	presenter.SuccessResponse(c, http.StatusOK, resFromDomain)
+}
 
 func (bc BorrowingController) InsertToBorrowing(c *gin.Context) {
 	req := Borrowing{}
