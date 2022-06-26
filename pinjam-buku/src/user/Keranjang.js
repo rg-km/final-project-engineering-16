@@ -1,11 +1,27 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Header from '../components/Header'
 import { Container, Row, Col, Button } from 'react-bootstrap'
 import { MdOutlineShoppingCart, MdCheckBox, MdCheckBoxOutlineBlank, MdLocationOn } from 'react-icons/md'
 import { Link } from 'react-router-dom'
+import axios from 'axios'
 import '../styles/user/Keranjang/Keranjang.css'
 
+const API_URL = "https://api-dev.pinjambuku.me/api/v1/cart/"
+
 export default function Keranjang() {
+    const [cartData, setCartData] = useState([])
+
+    const getCart = () => {
+        axios.get(`${API_URL}`).then((res) => {
+            const booksCart = res.data.data
+            setCartData(booksCart)
+        })
+    }
+
+    useEffect(() => {
+        getCart()
+    }, []);
+
     return (
         <>
             <Header />
@@ -15,44 +31,29 @@ export default function Keranjang() {
                         <h4 className="option-top"><MdOutlineShoppingCart className="option-logo" /> Keranjang</h4>
                         <h6><b>Perpustakaan Provinsi Kalimantan Timur</b></h6>
 
-                        <Row className="option-book">
-                            <Col xs={12} md={1} className="option-check d-flex align-items-center justify-content-center">
-                                <MdCheckBox className="check-logo " />
-                            </Col>
-                            <Col xs={12} md={11} className="option-name">
-                                <Row className="name-desc">
-                                    <Col xs={12} md={2} className="desc-photo">
-                                        <img src={require("../images/library-logo.png")} className="photo" />
-                                    </Col>
-                                    <Col xs={12} md={10} className="desc-book">
-                                        <p>
-                                            Ayat-ayat cinta <br />
-                                            241 Halaman <br />
-                                            Penulis : Habiburrahman <br />
-                                            Deposito : Rp 15.000
-                                        </p>
-                                    </Col>
-                                </Row>
-                            </Col>
-                            <Col xs={12} md={1} className="option-check d-flex align-items-center justify-content-center">
-                                <MdCheckBoxOutlineBlank className="uncheck-logo " />
-                            </Col>
-                            <Col xs={12} md={11} className="option-name">
-                                <Row className="name-desc">
-                                    <Col xs={12} md={2} className="desc-photo">
-                                        <img src={require("../images/library-logo.png")} className="photo" />
-                                    </Col>
-                                    <Col xs={12} md={10} className="desc-book">
-                                        <p>
-                                            Ayat-ayat cinta <br />
-                                            241 Halaman <br />
-                                            Penulis : Habiburrahman <br />
-                                            Deposito : Rp 15.000
-                                        </p>
-                                    </Col>
-                                </Row>
-                            </Col>
-                        </Row>
+                        {cartData.map(item =>
+                            <Row className="option-book" key={item.id}>
+                                <Col xs={12} md={1} className="option-check d-flex align-items-center justify-content-center">
+                                    <MdCheckBox className="check-logo " />
+                                    {/* <MdCheckBoxOutlineBlank className="uncheck-logo " /> */}
+                                </Col>
+                                <Col xs={12} md={11} className="option-name">
+                                    <Row className="name-desc">
+                                        <Col xs={12} md={2} className="desc-photo">
+                                            <img src={require("../images/library-logo.png")} className="photo" />
+                                        </Col>
+                                        <Col xs={12} md={10} className="desc-book">
+                                            <p>
+                                                {item.title} <br />
+                                                {item.pageNUmber} Halaman <br />
+                                                Penulis : {item.author} <br />
+                                                Deposito : Rp {item.deposit}
+                                            </p>
+                                        </Col>
+                                    </Row>
+                                </Col>
+                            </Row>
+                        )}
                     </Col>
                     <Col xs={6} md={3} className="cart-notes">
                         <Row className="note-address">

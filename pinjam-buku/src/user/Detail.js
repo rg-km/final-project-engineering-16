@@ -3,12 +3,17 @@ import Header from '../components/Header'
 import { Container, Row, Col, Button, Card } from 'react-bootstrap'
 import { MdShoppingCart, MdMenuBook, MdLocationOn, MdBookmarkBorder } from 'react-icons/md'
 import { Link, useParams } from 'react-router-dom'
+import Swal from 'sweetalert2'
 import axios from 'axios'
 import '../styles/user/Detail/Detail.css'
+const API_CART = "https://api-dev.pinjambuku.me/api/v1/cart/"
 
 export default function Detail() {
     const param = useParams();
     const [detail, setDetail] = useState(null);
+    let formData = new FormData();
+    formData.append('book_id', param.id);
+    formData.append('user_id', 3);
 
     const loadBook = async () => {
         axios.get("https://api-dev.pinjambuku.me/api/v1/book/" + param.id).then((res) => {
@@ -16,6 +21,34 @@ export default function Detail() {
             const myBook = res.data.data
             setDetail(myBook)
         })
+    };
+
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+    })
+
+    const postCart = () => {
+        axios.post(API_CART, formData)
+            .then((result) => {
+                console.log(result.data);
+                Toast.fire({
+                    icon: 'success',
+                    title: 'Buku berhasil ditambahkan!'
+                })
+            }).catch((err) => {
+                Toast.fire({
+                    icon: 'warning',
+                    title: 'Buku sudah ada dikeranjang!'
+                })
+            })
     };
 
     useEffect(() => {
@@ -68,7 +101,7 @@ export default function Detail() {
                                 </tr>
                             </table>
                             <p>{detail && detail.description}</p>
-                            <Button className="detail-btn" component={Link} href="/keranjang"><MdShoppingCart className="btn-icon" />  Masukkan Keranjang</Button>
+                            <Button className="detail-btn" onClick={postCart}><MdShoppingCart className="btn-icon" />  Masukkan Keranjang</Button>
                         </Col>
                         <Col xs={6} md={5}>
                             <table>
