@@ -270,3 +270,53 @@ func (u *BorrowingRepository) DeleteBorrowingByID(id int64) error {
 
 	return nil
 }
+
+func (b *BorrowingRepository) UpdateBorrowingStatusByID(id int64, statusID int64) error {
+	sqlStmt := `UPDATE book_borrowing SET status_id = ? WHERE id = ?`
+
+	_, err := b.db.Exec(sqlStmt, statusID, id)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (b *BorrowingRepository) UpdateBorrowingFinishDateByID(id int64) error {
+	sqlStmt := `UPDATE book_borrowing SET finish_date = ? WHERE id = ?`
+
+	_, err := b.db.Exec(sqlStmt, time.Now(), id)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (b *BorrowingRepository) GetAllBorrowingStatus() ([]domains.BorrowingStatus, error) {
+	sqlStmt := `SELECT id, status FROM borrowing_status`
+
+	borrowingStatus := []domains.BorrowingStatus{}
+
+	rows, err := b.db.Query(sqlStmt)
+	if err != nil {
+		return nil, err
+	}
+
+	for rows.Next() {
+		status := domains.BorrowingStatus{}
+
+		err := rows.Scan(
+			&status.ID,
+			&status.Status,
+		)
+
+		if err != nil {
+			return nil, err
+		}
+
+		borrowingStatus = append(borrowingStatus, status)
+	}
+
+	return borrowingStatus, nil
+}
