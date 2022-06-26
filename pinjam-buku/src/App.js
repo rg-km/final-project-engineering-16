@@ -49,11 +49,6 @@ function App() {
             <History />
           </Protected>
         } />
-        <Route path="informasi-rekening" element={
-          <Protected>
-            <Rekening />
-          </Protected>
-        } />
         <Route path="*" element={<NoMatch />} />
       </Routes>
     </div >
