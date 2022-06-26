@@ -8,12 +8,11 @@ import axios from 'axios'
 import '../styles/user/Detail/Detail.css'
 const API_CART = "https://api-dev.pinjambuku.me/api/v1/cart/"
 
+
 export default function Detail() {
+    const getLocal = JSON.parse(localStorage.getItem('myData'))
     const param = useParams();
     const [detail, setDetail] = useState(null);
-    let formData = new FormData();
-    formData.append('book_id', param.id);
-    formData.append('user_id', 3);
 
     const loadBook = async () => {
         axios.get("https://api-dev.pinjambuku.me/api/v1/book/" + param.id).then((res) => {
@@ -36,7 +35,13 @@ export default function Detail() {
     })
 
     const postCart = () => {
-        axios.post(API_CART, formData)
+        let formData = new FormData();
+        formData.append('book_id', param.id);
+        formData.append('user_id', getLocal.id);
+
+        axios.post(API_CART, formData, {
+            headers: { Authorization: `Bearer${getLocal.token}` }
+        })
             .then((result) => {
                 console.log(result.data);
                 Toast.fire({
@@ -44,10 +49,14 @@ export default function Detail() {
                     title: 'Buku berhasil ditambahkan!'
                 })
             }).catch((err) => {
-                Toast.fire({
-                    icon: 'warning',
-                    title: 'Buku sudah ada dikeranjang!'
-                })
+                if (err.response.data.status) {
+                    Toast.fire({
+                        icon: 'warning',
+                        title: 'Buku sudah ada dikeranjang!'
+                    })
+                } else {
+                    console.log("error post book to cart : ", err)
+                }
             })
     };
 
@@ -101,7 +110,13 @@ export default function Detail() {
                                 </tr>
                             </table>
                             <p>{detail && detail.description}</p>
-                            <Button className="detail-btn" onClick={postCart}><MdShoppingCart className="btn-icon" />  Masukkan Keranjang</Button>
+                            {getLocal === null &&
+                                <Button className="detail-btn" onClick={postCart} disabled><MdShoppingCart className="btn-icon" />  Masukkan Keranjang</Button>
+                            }
+
+                            {getLocal !== null &&
+                                <Button className="detail-btn" onClick={postCart}><MdShoppingCart className="btn-icon" />  Masukkan Keranjang</Button>
+                            }
                         </Col>
                         <Col xs={6} md={5}>
                             <table>
