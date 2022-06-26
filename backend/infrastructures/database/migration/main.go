@@ -62,7 +62,7 @@ func main() {
 			account_id INTEGER NOT NULL,
 			created_at DATETIME,
 			updated_at DATETIME,
-			FOREIGN KEY(account_id) REFERENCES bank_accounts(id)
+			FOREIGN KEY(account_id) REFERENCES rekening_accounts(id)
 		);
 	`)
 	if err != nil {
@@ -121,13 +121,27 @@ func main() {
 	}
 
 	_, err = db.Exec(`
-        CREATE TABLE IF NOT EXISTS bank_accounts (
-            id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-			name VARCHAR(256) NOT NULL,
-			number VARCHAR(256) NOT NULL,
-			bank_name VARCHAR(256) NOT NULL
-        );
-    `)
+		CREATE TABLE IF NOT EXISTS rekening_providers (
+			id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT
+			name VARCHAR(100) NOT NULL,
+			type VARCHAR(50) NOT NULL
+		)
+	`)
+	if err != nil {
+		panic(err)
+	}
+
+	_, err = db.Exec(`
+      CREATE TABLE IF NOT EXISTS rekening_accounts (
+      	id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+			name VARCHAR(256),
+			number VARCHAR(256),
+			rekening_provider_id INTEGER NOT NULL,
+			user_id INTEGER NOT NULL,
+		FOREIGN KEY(user_id) REFERENCES users(id),
+		FOREIGN KEY(rekening_provider_id) REFERENCES rekening_providers(id)
+      );
+   `)
 
 	if err != nil {
 		panic(err)
@@ -154,10 +168,20 @@ func main() {
 		panic(err)
 	}
 
+	_, err = db.Exec(`
+	INSERT INTO rekening_providers (name, type) VALUES
+	("MANDIRI", "BANK"), ("BCA", "BANK"), ("BNI", "BANK"), ("JAGO", "BANK"), ("DKI", "BANK"), ("PERMATA", "BANK"), 
+	("LINKAJA", "EMONEY"), ("OVO", "EMONEY"), ("DANA", "EMONEY"), ("GOPAY", "EMONEY")
+	`)
+
+	if err != nil {
+		panic(err)
+	}
+
 	//for testing
 	_, err = db.Exec(`
-	INSERT INTO bank_accounts (name, number, bank_name)
-	VALUES("PERPUS SBY", "144410101", "MANDIRI"), ("PERPUS SDA", "1444101012", "BCA")
+	INSERT INTO rekening_accounts (name, number, rekening_name, type)
+	VALUES("PERPUS SBY", "144410101", "MANDIRI", "BANK"), ("PERPUS SDA", "1444101012", "BCA", "BANK")
 	`)
 
 	if err != nil {
@@ -266,7 +290,7 @@ func Rollback(db *sql.DB) {
 		panic(err)
 	}
 
-	sqlStmt = `DROP TABLE bank_accounts;`
+	sqlStmt = `DROP TABLE rekening_accounts;`
 	_, err = db.Exec(sqlStmt)
 	if err != nil {
 		panic(err)

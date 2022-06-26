@@ -10,7 +10,7 @@ type Library struct {
 	Photo         string `db:"picture_profile"`
 	AccountNumber string `db:"account_number"`
 	AccountName   string `db:"account_name"`
-	BankName      string `db:"bank_name"`
+	BankName      string `db:"rekening_name"`
 	Token         string `db:"token"`
 	CreatedAt     string `db:"created_at"`
 	UpdatedAt     string `db:"updated_at"`
@@ -33,7 +33,7 @@ type CreateLibrary struct {
 	Photo         string `db:"picture_profile"`
 	AccountNumber string `db:"account_number"`
 	AccountName   string `db:"account_name"`
-	BankName      string `db:"bank_name"`
+	BankName      string `db:"rekening_name"`
 }
 
 type LibraryRepository interface {

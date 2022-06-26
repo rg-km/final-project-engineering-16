@@ -58,9 +58,9 @@ func (l *LibraryRepository) GetAllLibrary() ([]domains.Library, error) {
 	l.picture_profile, 
 	ba.number, 
 	ba.name, 
-	ba.bank_name 
+	ba.rekening_name 
 	FROM libraries l
-	INNER JOIN bank_accounts ba ON l.account_id = ba.id
+	INNER JOIN rekening_accounts ba ON l.account_id = ba.id
 	`
 
 	rows, err := l.db.Query(sqlStmt)
@@ -99,8 +99,8 @@ func (l *LibraryRepository) GetAllLibrary() ([]domains.Library, error) {
 }
 
 func (l *LibraryRepository) GetLibraryByID(id int64) (domains.Library, error) {
-	sqlstmt := `SELECT l.id, l.name, l.email, l.address, l.phone_number, l.picture_profile, ba.number, ba.name, ba.bank_name FROM libraries l
-				INNER JOIN bank_accounts ba ON l.account_id = ba.id WHERE l.id = ?`
+	sqlstmt := `SELECT l.id, l.name, l.email, l.address, l.phone_number, l.picture_profile, ba.number, ba.name, ba.rekening_name FROM libraries l
+				INNER JOIN rekening_accounts ba ON l.account_id = ba.id WHERE l.id = ?`
 
 	library := domains.Library{}
 	row := l.db.QueryRow(sqlstmt, id)

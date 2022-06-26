@@ -12,11 +12,6 @@ type Library struct {
 	AccountNumber string `json:"account_number"`
 	AccountName   string `json:"account_name"`
 	BankName      string `json:"rekening_name"`
-	PhoneNumber   string `json:"phone_number,omitempty"`
-	Photo         string `json:"picture_profile,omitempty"`
-	AccountNumber string `json:"account_number,omitempty"`
-	AccountName   string `json:"account_name,omitempty"`
-	BankName      string `json:"bank_name,omitempty"`
 }
 
 type UpdateLibrary struct {
