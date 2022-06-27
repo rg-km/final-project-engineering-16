@@ -27,24 +27,27 @@ const Konfirmasi = () => {
     })
 
     const postCheckout = () => {
-        let formData = new FormData();
-        formData.append('carts_id', location.state.cart_id);
-        formData.append('total_cost', 25000);
+        const params = JSON.stringify({
+            carts_id: [location.state.cart_id],
+            total_cost: 25000,
+        });
 
-        axios.post(API_URL, formData, {
-            headers: { Authorization: `Bearer${getLocal.token}` }
-        })
-            .then((result) => {
-                console.log(result.data);
-                Toast.fire({
-                    icon: 'success',
-                    title: 'Buku berhasil dipinjam!'
-                })
-                navigate("/status-peminjaman")
-
-            }).catch((err) => {
-                console.log("error checkout : ", err)
+        axios.post(API_URL, params, {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer${getLocal.token}`
+            },
+        }).then((result) => {
+            console.log(result.data);
+            Toast.fire({
+                icon: 'success',
+                title: 'Buku berhasil dipinjam!'
             })
+            navigate("/status-peminjaman")
+
+        }).catch((err) => {
+            console.log("error checkout : ", err)
+        })
     };
 
     return (
