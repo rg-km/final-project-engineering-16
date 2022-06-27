@@ -2,13 +2,55 @@ import React, { useState } from 'react'
 import Header from '../components/Header'
 import { Container, Row, Col, Button, Accordion } from 'react-bootstrap'
 import { MdLocationOn, MdAdd } from 'react-icons/md'
-import { Link } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+import axios from 'axios'
+import Swal from 'sweetalert2'
 import '../styles/user/Konfirmasi/Konfirmasi.css'
 
-export default function Konfirmasi() {
+const API_URL = "https://api-dev.pinjambuku.me/api/v1/cart/checkout"
+
+const Konfirmasi = () => {
+    const location = useLocation();
+    const navigate = useNavigate();
+    const getLocal = JSON.parse(localStorage.getItem('myData'))
+
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+    })
+
+    const postCheckout = () => {
+        let formData = new FormData();
+        formData.append('carts_id', location.state.cart_id);
+        formData.append('total_cost', 25000);
+
+        axios.post(API_URL, formData, {
+            headers: { Authorization: `Bearer${getLocal.token}` }
+        })
+            .then((result) => {
+                console.log(result.data);
+                Toast.fire({
+                    icon: 'success',
+                    title: 'Buku berhasil dipinjam!'
+                })
+                navigate("/status-peminjaman")
+
+            }).catch((err) => {
+                console.log("error checkout : ", err)
+            })
+    };
+
     return (
         <>
             <Header />
+            {console.log("iniii loooh ", location.state.cart_id)}
             <Container className="confirm-page">
                 <Row className="confirm-description">
                     <h4 className="confirm-top">Konfirmasi Pinjaman</h4><br />
@@ -116,7 +158,7 @@ export default function Konfirmasi() {
                                 <h5>Upload Bukti Pembayaran</h5>
                                 <input type="file" className="proof-photo" id="upload" hidden />
                                 <label for="upload"><MdAdd className="proof-add" /></label>
-                                <Button className="proof-btn">Kirim Bukti Pembayaran</Button>
+                                <Button className="proof-btn" onClick={postCheckout}>Kirim Bukti Pembayaran</Button>
                             </section>
                         </Row>
                     </Col>
@@ -147,3 +189,5 @@ export default function Konfirmasi() {
         </>
     )
 }
+
+export default Konfirmasi;
