@@ -29,8 +29,7 @@
   align-items: center;
 }
 .registration .jumbotron {
-  padding: 2rem;
-  margin-bottom: 2rem;
+  padding: 1.5rem;
   background-color: #fff;
   border-radius: 0.3rem;
   box-shadow: 0px 0px 7px rgb(117, 117, 117);
@@ -71,6 +70,8 @@
   width: 100%;
   border-radius: 10px;
   font-weight: 800;
+  background-color: #5C79C5;
+  border: none;
 }
 .registration .jumbotron .btn-primary:disabled {
   width: 100%;
@@ -96,9 +97,6 @@
 .registration section .alert-words span {
   font-weight: bold;
   font-size: 1.2rem;
-}
-.registration section .btn-primary {
-  background-color: red;
 }
 
 @media screen and (max-width: 768px) {

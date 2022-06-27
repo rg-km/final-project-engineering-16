@@ -1,0 +1,55 @@
+.profile-content {
+    font-family: 'Poppins', sans-serif;
+
+    .profile-bottom {
+        padding: 0;
+        margin-top: 1.5rem;
+        font-size: 15px;
+
+        .content-sidebar {
+            background-color: #F1F2FC;
+            padding: 0;
+            border-right: 30px white solid;
+            max-height: 68vh;
+
+            .side-nav {
+                color: black;
+                margin: auto;
+                line-height: 3rem;
+
+                &:hover {
+                    background-color: #EDEDED;
+                }
+
+            }
+
+            .nav-active {
+                background-color: #EDEDED;
+                font-weight: bold;
+            }
+
+            .side-logout {
+                margin-top: 9rem;
+
+                &:hover {
+                    background-color: #F1F2FC;
+                    color: red;
+                }
+            }
+        }
+
+        .content-data {
+            background-color: #F1F2FC;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+
+            .table {
+                background-color: white;
+
+                thead {
+                    background-color: #efefef;
+                }
+            }
+        }
+    }
+}
