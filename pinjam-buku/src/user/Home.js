@@ -1,12 +1,27 @@
-import React, { useState } from 'react'
-import Header from '../components/Header';
-import { useForm } from 'react-hook-form'
+import React, { useState, useEffect } from 'react'
+import Header from '../components/Header'
 import { Link } from "react-router-dom"
-import { Container, Row, Col, Form, Button } from 'react-bootstrap'
+import { Container, Button, Col } from 'react-bootstrap'
 import { MdOutlineTouchApp, MdOutlineLocalLibrary, MdPayment } from "react-icons/md";
 import '../styles/user/Home/Home.css'
+import axios from 'axios'
+let API_URL = "https://api-dev.pinjambuku.me/api/v1/library/"
 
 export default function Home() {
+    const [library, setLibrary] = useState([])
+
+    const getLibrary = () => {
+        axios.get(`${API_URL}`).then((res) => {
+            console.log(res)
+            const lib = res.data.data
+            setLibrary(lib)
+        })
+    };
+
+    useEffect(() => {
+        getLibrary()
+    }, [])
+
     return (
         <>
             <Header />
@@ -43,24 +58,14 @@ export default function Home() {
                 </section>
                 <section className="partner text-center">
                     <h1 className="partner-name">Partner Kami</h1>
-                    <section className="partners-info d-flex justify-content-around">
-                        <div className="partner-benefit text-center">
-                            <img src={require("../images/library-logo.png")}></img>
-                            <p className="partner-caption">Perpustakaan Provinsi Kalimantan Timur</p>
-                        </div>
-                        <div className="partner-benefit text-center">
-                            <img src={require("../images/library-logo.png")}></img>
-                            <p className="partner-caption">Perpustakaan Provinsi Kalimantan Timur</p>
-                        </div>
-                        <div className="partner-benefit text-center">
-                            <img src={require("../images/library-logo.png")}></img>
-                            <p className="partner-caption">Perpustakaan Provinsi Kalimantan Timur</p>
-                        </div>
-                        <div className="partner-benefit text-center">
-                            <img src={require("../images/library-logo.png")}></img>
-                            <p className="partner-caption">Perpustakaan Provinsi Kalimantan Timur</p>
-                        </div>
-                    </section>
+                    <Col md={3} className="partners-info d-flex justify-content-around col-md-4">
+                        {library.map(item =>
+                            <div className="partner-benefit text-center">
+                                <img src={require("../images/library-logo.png")}></img>
+                                <p className="partner-caption">{item.name}</p>
+                            </div>
+                        )}
+                    </Col>
                 </section>
             </Container>
         </>

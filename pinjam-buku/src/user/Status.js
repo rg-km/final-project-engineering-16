@@ -59,9 +59,9 @@ const Status = () => {
                                     </tr>
                                 }
                                 {status !== null &&
-                                    status.map(item =>
+                                    status.map((item, index) =>
                                         <tr>
-                                            <td>1</td>
+                                            <td>{index + 1}</td>
                                             <td>{item.borrowingDate}</td>
                                             <td>{item.library.name}</td>
                                             <td>{item.book.title}</td>
