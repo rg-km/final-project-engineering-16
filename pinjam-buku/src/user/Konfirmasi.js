@@ -14,6 +14,7 @@ const Konfirmasi = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const [dataList, setDataList] = useState([])
+    const [dataNew, setDataNew] = useState({})
 
     const Toast = Swal.mixin({
         toast: true,
@@ -56,8 +57,10 @@ const Konfirmasi = () => {
             axios.get(`https://api-dev.pinjambuku.me/api/v1/cart/${location.state.cart_id[i]}`, {
                 headers: { Authorization: `Bearer${getLocal.token}` }
             }).then((res) => {
-                console.log(res.data.data)
-                setDataList(res.data.data)
+                console.log("ini data ", res.data.data.book)
+                setDataNew(res.data.data.book)
+                setDataList([...dataList, dataNew])
+
             }).catch((err) => {
                 console.log("error get data cart : ", err)
             })
@@ -73,10 +76,10 @@ const Konfirmasi = () => {
             <Header />
             <Container className="confirm-page">
                 <Row className="confirm-description">
-                    <h4 className="confirm-top">Konfirmaasi Pinjaman</h4><br />
+                    <h4 className="confirm-top">Konfirmasi Pinjaman</h4><br />
                     <Col xs={12} md={9} className="confirm-books">
                         <Row className="books-list">
-                            <Accordion defaultActiveKey="0" className="books-name">
+                            < Accordion defaultActiveKey="0" className="books-name" >
                                 <h6><b>Perpus SBY</b></h6>
                                 <Accordion.Item eventKey="0" className="books-item">
                                     <Accordion.Header>Buku</Accordion.Header>
@@ -90,7 +93,7 @@ const Konfirmasi = () => {
                                                     Ayat-Ayat Cinta <br />
                                                     241 Halaman <br />
                                                     Penulis : Habiburrahman <br />
-                                                    Deposito : Rp 20000
+                                                    Deposito : Rp 30000
                                                 </p>
                                             </Col>
                                         </Row>
@@ -98,6 +101,27 @@ const Konfirmasi = () => {
                                 </Accordion.Item>
                             </Accordion>
                             <hr />
+                            < Accordion defaultActiveKey="0" className="books-name" >
+                                <h6><b>Perpus SBY</b></h6>
+                                <Accordion.Item eventKey="0" className="books-item">
+                                    <Accordion.Header>Buku</Accordion.Header>
+                                    <Accordion.Body>
+                                        <Row className="books-desc">
+                                            <Col xs={12} md={2} className="books-photo">
+                                                <img src={require("../images/library-logo.png")} className="photo" />
+                                            </Col>
+                                            <Col xs={12} md={10} className="books-text">
+                                                <p>
+                                                    Nebula <br />
+                                                    Halaman <br />
+                                                    Penulis : Wati <br />
+                                                    Deposito : Rp 98000
+                                                </p>
+                                            </Col>
+                                        </Row>
+                                    </Accordion.Body>
+                                </Accordion.Item>
+                            </Accordion>
                         </Row>
                         <Row className="payment-list">
                             <h6 className="payment-title">Pilihan Pembayaran</h6>
@@ -119,11 +143,11 @@ const Konfirmasi = () => {
                                 </tr>
                                 <tr>
                                     <td>Ayat-Ayat Cinta</td>
-                                    <td className="text-right">1 &times; Rp 15.000</td>
+                                    <td className="text-right">Rp 30000</td>
                                 </tr>
                                 <tr>
-                                    <td>Laskar Pelangi</td>
-                                    <td className="text-right">2 &times; Rp 15.000</td>
+                                    <td>Nebula</td>
+                                    <td className="text-right">Rp 98000</td>
                                 </tr>
                                 <tr>
                                     <td className="space"></td>
@@ -133,18 +157,18 @@ const Konfirmasi = () => {
                                 </tr>
                                 <tr>
                                     <td>Perpustakaan Provinsi Kalimantan Timur</td>
-                                    <td className="text-right">Rp 15.000</td>
+                                    <td className="text-right">Rp 15000</td>
                                 </tr>
                                 <tr>
                                     <td>Perpustakaan Provinsi Jawa Timur</td>
-                                    <td className="text-right">Rp 15.000</td>
+                                    <td className="text-right">Rp 15000</td>
                                 </tr>
                                 <tr>
                                     <td colSpan="2"><hr /></td>
                                 </tr>
                                 <tr>
                                     <td><b>Total Pembayaran</b></td>
-                                    <td className="text-right"><b>Rp 15.000</b></td>
+                                    <td className="text-right"><b>Rp 158000</b></td>
                                 </tr>
                             </table>
                             <section className="proof-payment">
@@ -178,7 +202,7 @@ const Konfirmasi = () => {
                         </Row>
                     </Col>
                 </Row>
-            </Container>
+            </Container >
         </>
     )
 }
