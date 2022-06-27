@@ -1,0 +1,14 @@
+.logo {
+    color: #5C79C5;
+    font-weight: 900;
+    font-size: 1.5rem;
+}
+
+.img-nav {
+    clip-path: circle();
+    height: 35px;
+}
+
+.navadmin {
+    padding: 5px 50px;
+}
