@@ -1,17 +1,39 @@
 import React, { useEffect, useState } from 'react'
 import Header from '../components/Header';
 import { Container, Row, Col, Nav, Button, Form } from 'react-bootstrap'
-import { Link } from 'react-router-dom';
 import HeaderDashboard from '../components/HeaderDashboard';
 import Sidebar from '../components/Sidebar'
 import '../styles/user/Profile/Profile.css'
 import axios from 'axios';
+import Swal from 'sweetalert2'
 
 export default function Profile() {
+    const getLocal = JSON.parse(localStorage.getItem('myData'))
     const [provinsi, setProvinsi] = useState([])
     const [kota, setkota] = useState([])
     const [kecamatan, setkecamatan] = useState([])
     const [kelurahan, setkelurahan] = useState([])
+    const [imageProfile, setImageProfile] = useState("")
+    const [urlImageProfile, setUrlImageProfile] = useState("")
+    // data user update API
+    const [picture_profile, setPP] = useState("")
+    const [email, setEmail] = useState("")
+    const [fullname, setFullname] = useState("")
+    const [phone_number, setPhone] = useState("")
+    const [address, setAddress] = useState("")
+    const [id, setID] = useState("")
+
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+    })
 
     const getProvinsi = async () => {
         await axios.get("https://dev.farizdotid.com/api/daerahindonesia/provinsi").then((res) => {
@@ -55,10 +77,62 @@ export default function Profile() {
     }
 
     const handleKelurahan = (e) => {
-        console.log('value kelurahan ', kelurahan[e.target.value])
+        console.log('value kelurahan ', kelurahan[e.target.value].nama)
+        setAddress(kelurahan[e.target.value].nama)
+    }
+
+    // post API
+    const uploadForm = (files) => {
+        const formDatauser = new FormData()
+        formDatauser.append('picture_profile', urlImageProfile)
+        formDatauser.append('fullname', fullname)
+        formDatauser.append('phone_number', phone_number)
+        formDatauser.append('address', address)
+
+        axios.put("https://api-dev.pinjambuku.me/api/v1/user/" + getLocal.id, formDatauser,
+            {
+                headers: {
+                    Authorization: `Bearer${getLocal.token}`
+                }
+            }).then((res) => {
+                console.log("ini data user ", res)
+                getUsers()
+                Toast.fire({
+                    icon: 'success',
+                    title: 'Data diri berhasil disimpan!'
+                })
+            }).catch((err) => {
+                console.log("error update user ", err)
+            })
+
+        const formProfile = new FormData()
+        formProfile.append("file", imageProfile)
+        formProfile.append("upload_preset", "guobl0vj")
+        axios.post("https://api.cloudinary.com/v1_1/dh3dgxadu/image/upload", formProfile)
+            .then((res) => {
+                console.log("ini url foto profile ", res.data.secure_url)
+                setUrlImageProfile(res.data.secure_url)
+            })
+    }
+
+    const getUsers = () => {
+        axios.get("https://api-dev.pinjambuku.me/api/v1/user/" + getLocal.id,
+            {
+                headers: { Authorization: `Bearer${getLocal.token}` }
+            }).then((result) => {
+                setPP(result.data.data.profile_picture)
+                setEmail(result.data.data.email)
+                setFullname(result.data.data.fullname)
+                setPhone(result.data.data.phone_number)
+                setAddress(result.data.data.address)
+                setID(result.data.data.id)
+            }).catch((err) => {
+                console.log("error get data user ", err)
+            })
     }
 
     useEffect(() => {
+        getUsers()
         getProvinsi()
     }, [])
 
@@ -75,7 +149,10 @@ export default function Profile() {
                             <Row className="data-image">
                                 <Col md={2} className="image-add">
                                     <img src={require("../images/home.jpeg")} className="img-fluid rounded-circle"></img>
-                                    <input type="file" name="photo" />
+                                    <input type="file" name="picture_profile" value={picture_profile}
+                                        onChange={(e) => {
+                                            setImageProfile(e.target.files[0])
+                                        }} />
                                 </Col>
                                 <Col md={10} className="image-text">
                                     Ubah Photo
@@ -83,37 +160,29 @@ export default function Profile() {
                             </Row>
                             <Row className="data-user">
                                 <Col className="user-left" xs={12} md={6}>
-                                    <Form.Group className="mb-3">
-                                        <Form.Label>Foto KTP</Form.Label>
-                                        <Form.Control type="file" name="photo_ktp"
-                                        />
-                                    </Form.Group>
-                                    <Form.Group className="mb-3">
-                                        <Form.Label>Nomor KTP</Form.Label>
-                                        <Form.Control type="number" name="photo_ktp"
-                                        />
-                                    </Form.Group>
                                     <Form.Group className="mb-3" controlId="formBasicName">
                                         <Form.Label>Nama Lengkap</Form.Label>
-                                        <Form.Control type="text" name="fullname"
+                                        <Form.Control type="text" name="fullname" value={fullname}
+                                            onChange={(e) => { setFullname(e.target.value) }}
                                         />
                                     </Form.Group>
 
                                     <Form.Group className="mb-3" controlId="formBasicNoTlp">
                                         <Form.Label>No. Telepon</Form.Label>
-                                        <Form.Control type="number" name="phone_number"
+                                        <Form.Control type="number" name="phone_number" value={phone_number}
+                                            onChange={(e) => { setPhone(e.target.value) }}
                                         />
                                     </Form.Group>
 
                                     <Form.Group className="mb-3" controlId="formBasicEmail">
                                         <Form.Label>Email</Form.Label>
-                                        <Form.Control type="email" name="email"
+                                        <Form.Control type="email" name="email" value={email} disabled
                                         />
                                     </Form.Group>
 
                                     <Form.Group className="mb-3" controlId="formBasicPassword">
                                         <Form.Label>Password</Form.Label>
-                                        <Form.Control type="password" name="password"
+                                        <Form.Control type="password" name="password" disabled
                                         />
                                     </Form.Group>
 
@@ -171,14 +240,9 @@ export default function Profile() {
                                             }
                                         </Form.Select>
                                     </Form.Group>
-                                    <Form.Group className="mb-3">
-                                        <Form.Label>Catatan</Form.Label>
-                                        <Form.Control type="text" name="catatan" className="right-textbox"
-                                        />
-                                    </Form.Group>
                                     <Row>
                                         <Col className="text-end" md={12}>
-                                            <Button type="submit">Simpan</Button>
+                                            <Button onClick={uploadForm}>Simpan</Button>
                                         </Col>
                                     </Row>
                                 </Col>
