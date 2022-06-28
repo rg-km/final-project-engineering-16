@@ -5,6 +5,7 @@ import Home from './user/Home'
 import Login from './account/Login'
 import Galeri from './user/Galeri'
 import Detail from './user/Detail'
+import DashboardAdmin from './admin/Dashboard'
 import Keranjang from './user/Keranjang'
 import Konfirmasi from './user/Konfirmasi'
 import Profile from './user/Profile'
@@ -13,6 +14,7 @@ import History from './user/History'
 import Protected from './user/Protected'
 import NoMatch from './components/NoMatch'
 
+
 function App() {
   return (
     <div className="App">
@@ -20,6 +22,7 @@ function App() {
         <Route index element={<Home />} />
         <Route path="/daftar" element={<Register />} />
         <Route path='/masuk' element={<Login />} />
+        <Route path='/dashboard-admin' element={<DashboardAdmin />} />
         <Route path="/galeri-buku" element={<Outlet />}>
           <Route index element={<Galeri />} />
           <Route path=':id' element={<Detail />} />
