@@ -6,6 +6,14 @@ import Login from './account/Login'
 import Galeri from './user/Galeri'
 import Detail from './user/Detail'
 import DashboardAdmin from './admin/Dashboard'
+import Keranjang from './user/Keranjang'
+import Konfirmasi from './user/Konfirmasi'
+import Profile from './user/Profile'
+import Status from './user/Status'
+import History from './user/History'
+import Protected from './user/Protected'
+import NoMatch from './components/NoMatch'
+
 
 function App() {
   return (
@@ -19,6 +27,32 @@ function App() {
           <Route index element={<Galeri />} />
           <Route path=':id' element={<Detail />} />
         </Route>
+        <Route path="keranjang" element={
+          <Protected>
+            <Keranjang />
+          </Protected>
+        } />
+        <Route path="konfirmasi" element={
+          <Protected>
+            <Konfirmasi />
+          </Protected>
+        } />
+        <Route path="profile" element={
+          <Protected>
+            <Profile />
+          </Protected>
+        } />
+        <Route path="status-peminjaman" element={
+          <Protected>
+            <Status />
+          </Protected>
+        } />
+        <Route path="history-peminjaman" element={
+          <Protected>
+            <History />
+          </Protected>
+        } />
+        <Route path="*" element={<NoMatch />} />
       </Routes>
     </div >
   );

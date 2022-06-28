@@ -1,0 +1,138 @@
+.confirm-page {
+  font-family: "Poppins", sans-serif;
+  padding: 0;
+  margin: auto;
+}
+.confirm-page .confirm-description .confirm-top {
+  font-weight: 600;
+  line-height: 3rem;
+}
+.confirm-page .confirm-description .confirm-books .books-list {
+  width: 95%;
+  margin: 0;
+}
+.confirm-page .confirm-description .confirm-books .books-list .books-name {
+  padding: 0;
+}
+.confirm-page .confirm-description .confirm-books .books-list .books-name h6 {
+  padding: 0;
+}
+.confirm-page .confirm-description .confirm-books .books-list .books-name .books-item {
+  border: 1px #C9C9C9 solid;
+  border-radius: 10px;
+  padding: 0.2rem;
+  margin: 0 0 1rem 0;
+  box-shadow: 0px 4px 4px #C9C9C9;
+}
+.confirm-page .confirm-description .confirm-books .books-list .books-name .books-item .books-desc .books-photo .photo {
+  width: 100%;
+  height: auto;
+}
+.confirm-page .confirm-description .confirm-books .books-list hr {
+  height: 0.6rem;
+  background-color: rgb(194, 194, 194);
+  box-shadow: 2px 4px 5px #818181;
+  border-radius: 10px;
+  margin: 1rem 0 2rem 0;
+}
+.confirm-page .confirm-description .confirm-books .payment-list {
+  width: 95%;
+  border: 1px #C9C9C9 solid;
+  border-radius: 10px;
+  padding: 1.5rem;
+  margin: 0 0 1rem 0;
+  box-shadow: 0px 4px 4px #C9C9C9;
+}
+.confirm-page .confirm-description .confirm-books .payment-list .payment-title {
+  font-weight: 700;
+  padding: 0;
+}
+.confirm-page .confirm-description .confirm-books .payment-list .payment-name {
+  width: 20%;
+  margin: 0;
+}
+.confirm-page .confirm-description .confirm-books .summary-detail {
+  width: 95%;
+  border: 1px #C9C9C9 solid;
+  border-radius: 10px;
+  padding: 1.5rem;
+  margin: 0 0 1rem 0;
+  box-shadow: 0px 4px 4px #C9C9C9;
+}
+.confirm-page .confirm-description .confirm-books .summary-detail .summary-title {
+  font-weight: 700;
+  padding: 0;
+}
+.confirm-page .confirm-description .confirm-books .summary-detail table {
+  width: 100%;
+}
+.confirm-page .confirm-description .confirm-books .summary-detail table tr .text-right {
+  text-align: right;
+}
+.confirm-page .confirm-description .confirm-books .summary-detail table tr .space {
+  height: 0.5rem;
+}
+.confirm-page .confirm-description .confirm-books .summary-detail table tr td hr {
+  height: 0.4rem;
+  background-color: #a5a5a5;
+  border-radius: 5px;
+}
+.confirm-page .confirm-description .confirm-books .summary-detail .proof-payment {
+  padding: 0;
+}
+.confirm-page .confirm-description .confirm-books .summary-detail .proof-payment h5 {
+  margin-top: 2rem;
+  text-align: center;
+  font-weight: bold;
+}
+.confirm-page .confirm-description .confirm-books .summary-detail .proof-payment label {
+  margin-top: 0.6rem;
+  display: inline-block;
+  background-color: #EDEDED;
+  color: black;
+  padding: 0.5rem;
+  font-family: sans-serif;
+  border-radius: 0.3rem;
+  cursor: pointer;
+  width: 100%;
+  text-align: center;
+}
+.confirm-page .confirm-description .confirm-books .summary-detail .proof-payment .proof-add {
+  width: 5%;
+  height: auto;
+}
+.confirm-page .confirm-description .confirm-books .summary-detail .proof-payment .proof-btn {
+  width: 100%;
+  background-color: #DAE4E2;
+  color: #5C79C5;
+  margin-top: 1rem;
+  border-radius: 5px;
+  border: none;
+  font-weight: 700;
+}
+.confirm-page .confirm-description .confirm-books .summary-detail .proof-payment .proof-btn:hover {
+  border: 1px #5C79C5 solid;
+}
+.confirm-page .confirm-description .confirm-notes .note-address {
+  border: 1px #C9C9C9 solid;
+  border-radius: 10px;
+  padding: 0.8rem;
+  box-shadow: 0px 2px 4px #C9C9C9;
+  margin-bottom: 1.5rem;
+}
+.confirm-page .confirm-description .confirm-notes .note-address h6 {
+  padding: 0;
+  font-weight: bold;
+}
+.confirm-page .confirm-description .confirm-notes .note-address h6 .note-logo {
+  width: 10%;
+  height: auto;
+}
+.confirm-page .confirm-description .confirm-notes .note-address p {
+  padding: 0;
+  font-size: 14px;
+}
+.confirm-page .confirm-description .confirm-notes .note-address p span {
+  font-weight: bold;
+  text-align: justify;
+}/*# sourceMappingURL=Konfirmasi.css.map */

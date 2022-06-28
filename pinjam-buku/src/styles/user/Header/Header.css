@@ -1,23 +1,23 @@
 .navbar {
   font-family: "Poppins", sans-serif;
 }
-.navbar .nav .logo {
+.navbar .container .logo {
   color: #5C79C5;
   font-weight: 900;
   font-size: 1.5rem;
 }
-.navbar .nav .collapse .nav-link {
+.navbar .container .navbar-collapse .nav-link {
   color: black;
 }
-.navbar .nav .collapse .nav-link:hover {
+.navbar .container .navbar-collapse .nav-link:hover {
   -webkit-text-decoration: underline #5C79C5 3px;
           text-decoration: underline #5C79C5 3px;
 }
-.navbar .nav .collapse .nav-link .btn {
+.navbar .container .navbar-collapse .nav-link .btn {
   width: 125%;
   font-size: 15px;
 }
-.navbar .nav .collapse .nav-link .login {
+.navbar .container .navbar-collapse .nav-link .login {
   background-color: white;
   color: #5C79C5;
   font-weight: 600;
@@ -26,10 +26,10 @@
   box-shadow: 0 4px 5px -2px #969696;
   letter-spacing: 1px;
 }
-.navbar .nav .collapse .nav-link .login:hover {
+.navbar .container .navbar-collapse .nav-link .login:hover {
   background-color: #ececec;
 }
-.navbar .nav .collapse .nav-link .signup {
+.navbar .container .navbar-collapse .nav-link .signup {
   background-color: #5C79C5;
   color: white;
   font-weight: 600;
@@ -37,7 +37,16 @@
   box-shadow: 0 4px 5px -2px #969696;
   letter-spacing: 1px;
 }
-.navbar .nav .collapse .nav-link .signup:hover {
+.navbar .container .navbar-collapse .nav-link .signup:hover {
   background-color: #90a8e6;
   border: #90a8e6 solid 1px;
+}
+.navbar .container .navbar-collapse .nav-link .icon-size {
+  width: 1.4rem;
+  height: auto;
+  color: #707070;
+}
+.navbar .container .navbar-collapse .nav-link .icon-profile {
+  width: 2rem;
+  height: 2rem;
 }/*# sourceMappingURL=Header.css.map */
