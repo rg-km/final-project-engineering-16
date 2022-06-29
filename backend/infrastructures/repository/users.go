@@ -24,9 +24,8 @@ func (u *UserRepository) FetchUserByID(id int64) (domains.User, error) {
 	u.address,
 	u.email,
 	u.phone_number,
-	u.verified_date,
-	ur.name
-	FROM users u INNER JOIN user_roles ur ON u.role_id = ur.id WHERE u.id = ?`
+	u.picture_profile 
+	FROM users u WHERE u.id = ?`
 
 	user := domains.User{}
 
@@ -37,8 +36,7 @@ func (u *UserRepository) FetchUserByID(id int64) (domains.User, error) {
 		&user.Address,
 		&user.Email,
 		&user.PhoneNumber,
-		&user.Verified,
-		&user.Role,
+		&user.Photo,
 	)
 
 	if err != nil {
@@ -120,4 +118,27 @@ func (u *UserRepository) CheckAccountEmail(email string) bool {
 		}
 	}
 	return res == email
+}
+
+func (u *UserRepository) UpdateUserProfile(id int64, fullname, address, phoneNumber, photo string) (domains.UpdateUser, error) {
+	sqlstmt := `UPDATE users
+					SET fullname = ?,
+						address = ?,
+						phone_number = ?,
+						picture_profile = ?
+					WHERE id = ?`
+	_, err := u.db.Exec(sqlstmt, fullname, address, phoneNumber, photo, id)
+
+	if err != nil {
+		return domains.UpdateUser{}, err
+	}
+
+	user := domains.UpdateUser{}
+	user.ID = id
+	user.Fullname = fullname
+	user.Address = address
+	user.PhoneNumber = phoneNumber
+	user.Photo = photo
+
+	return user, nil
 }

@@ -10,27 +10,28 @@ import (
 	"github.com/rg-km/final-project-engineering-16/backend/usecases"
 )
 
-func InitRoutesCart(db *sql.DB, route *gin.Engine) {
-	cartRepository := repository.NewCartRepository(db)
-	cartUsecase := usecases.NewCartUsecase(cartRepository)
-	cartController := handler.NewCartController(cartUsecase)
-
-	borrowingRepository := repository.NewBorrowingRepository(db)
+func InitRoutesBorrowing(db *sql.DB, route *gin.Engine) {
 	bookRepository := repository.NewBookRepository(db)
+	cartRepository := repository.NewCartRepository(db)
+	borrowingRepository := repository.NewBorrowingRepository(db)
 	borrowingUsecase := usecases.NewBorrowingUsecase(borrowingRepository, bookRepository, cartRepository)
 	borrowingController := handler.NewBorrowingController(borrowingUsecase)
 
 	apiv1 := route.Group("/api/v1")
 	{
-		apiv1.Use(middleware.AuthorizeJWT(), middleware.AuthMiddleware("user"))
-		cart := apiv1.Group("/cart")
+		borrowing := apiv1.Group("/borrowing")
 		{
-			cart.GET("/", cartController.ShowCartByUserID)
-			cart.GET("/:id", cartController.GetCartByID)
-			cart.POST("/", cartController.InsertToCart)
-			cart.POST("/checkout", borrowingController.InsertToBorrowing)
-			cart.DELETE("/:id", cartController.DeleteCartByID)
+			showAll := borrowing.Group("/")
+			showAll.Use(middleware.AuthorizeJWT(), middleware.AuthMiddleware("user"))
+			{
+				showAll.GET("/", borrowingController.ShowBorrowingByUserID)
+			}
 		}
-
+		{
+			borrowing.GET("/:id", borrowingController.GetBorrowingByID)
+		}
+		{
+			borrowing.GET("/status", borrowingController.GetAllBorrowingStatus)
+		}
 	}
 }

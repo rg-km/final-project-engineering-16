@@ -5,12 +5,14 @@ import (
 )
 
 type Login struct {
+	ID       int64  `json:"id"`
 	Email    string `json:"email"`
 	Fullname string `json:"fullname"`
 	Token    string `json:"token,omitempty"`
 }
 
 type LoginLibrary struct {
+	ID    int64  `json:"id"`
 	Email string `json:"email"`
 	Name  string `json:"name"`
 	Token string `json:"token,omitempty"`
@@ -18,6 +20,7 @@ type LoginLibrary struct {
 
 func LoginFromDomain(u domains.User) Login {
 	return Login{
+		ID:       u.ID,
 		Email:    u.Email,
 		Fullname: u.Fullname,
 		Token:    u.Token,
@@ -26,6 +29,7 @@ func LoginFromDomain(u domains.User) Login {
 
 func LoginLibraryFromDomain(l domains.Library) LoginLibrary {
 	return LoginLibrary{
+		ID:    l.ID,
 		Email: l.Email,
 		Name:  l.Name,
 		Token: l.Token,
@@ -33,18 +37,20 @@ func LoginLibraryFromDomain(l domains.Library) LoginLibrary {
 }
 
 type CreateUser struct {
+	ID          int64  `json:"id"`
 	Email       string `json:"email"`
-	Fullname    string `json:"fullname"`
-	Address     string `json:"address"`
-	PhoneNumber string `json:"phone_number"`
-	Role        string `json:"role"`
-	Photo       string `json:"photo"`
-	CreatedAt   string `json:"created_at"`
-	UpdatedAt   string `json:"updated_at"`
+	Fullname    string `json:"fullname,omitempty"`
+	Address     string `json:"address,omitempty"`
+	PhoneNumber string `json:"phone_number,omitempty"`
+	Role        string `json:"role,omitempty"`
+	Photo       string `json:"photo,omitempty"`
+	CreatedAt   string `json:"created_at,omitempty"`
+	UpdatedAt   string `json:"updated_at,omitempty"`
 }
 
 func CreateUserFromDomain(u domains.User) CreateUser {
 	return CreateUser{
+		ID:          u.ID,
 		Email:       u.Email,
 		Fullname:    u.Fullname,
 		Address:     u.Address,

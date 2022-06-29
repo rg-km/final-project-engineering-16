@@ -15,8 +15,12 @@ var (
 	ErrUnauthorized = errors.New("unauthorized")
 	// ErrUserAlreadyExists is thrown when the user already exists
 	ErrUserAlreadyExists = errors.New("user already exists")
+	// ErrUserNotFound is thrown when the user not found
+	ErrUserNotFound = errors.New("user not found")
 	// ErrCartNotFound is thrown when the cart is not found
 	ErrCartNotFound = errors.New("cart not found")
 	// ErrCartAlreadyExists is thrown when the cart already exists
 	ErrCartAlreadyExists = errors.New("cart already exists")
+	// ErrBorrowingNotFound is thrown when the borrowing is not found
+	ErrBorrowingNotFound = errors.New("borrowing not found")
 )
