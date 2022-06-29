@@ -1,0 +1,74 @@
+.profile-content {
+  padding: 0;
+  margin-top: 1.5rem;
+  font-size: 15px;
+}
+.profile-content .profile-bottom {
+  margin: 0 0.1rem 0 0.1rem;
+}
+.profile-content .profile-bottom .content-sidebar {
+  background-color: #F1F2FC;
+  padding: 0;
+  border-right: 30px white solid;
+  max-height: 58vh;
+}
+.profile-content .profile-bottom .content-sidebar .side-nav {
+  color: black;
+  margin: auto;
+  line-height: 3rem;
+}
+.profile-content .profile-bottom .content-sidebar .side-nav:hover {
+  background-color: #EDEDED;
+}
+.profile-content .profile-bottom .content-sidebar .nav-active {
+  background-color: #EDEDED;
+  font-weight: bold;
+}
+.profile-content .profile-bottom .content-sidebar .side-logout {
+  margin-top: 9rem;
+}
+.profile-content .profile-bottom .content-sidebar .side-logout:hover {
+  background-color: #F1F2FC;
+  color: red;
+}
+.profile-content .profile-bottom .content-data {
+  background-color: #F1F2FC;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+.profile-content .profile-bottom .content-data .data-image .image-add {
+  overflow: hidden;
+  position: relative;
+}
+.profile-content .profile-bottom .content-data .data-image .image-add input {
+  position: absolute;
+  height: 400px;
+  width: 400px;
+  left: -200px;
+  top: -200px;
+  background: transparent;
+  opacity: 0;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+  filter: alpha(opacity=0);
+}
+.profile-content .profile-bottom .content-data .data-image .image-add img {
+  width: 80px;
+  height: 80px;
+}
+.profile-content .profile-bottom .content-data .data-image .image-text {
+  margin: auto;
+  margin: auto 0 auto -2.2rem;
+}
+.profile-content .profile-bottom .content-data .data-user {
+  margin-top: 1rem;
+}
+.profile-content .profile-bottom .content-data .data-user .user-right .mb-3 .right-textbox {
+  height: 120px;
+}
+.profile-content .profile-bottom .content-data .data-user .user-right .btn-primary {
+  background-color: #5C79C5;
+  border: none;
+}
+.profile-content .profile-bottom .content-data .data-user .user-right .btn-primary:hover {
+  font-weight: bold;
+}/*# sourceMappingURL=Profile.css.map */

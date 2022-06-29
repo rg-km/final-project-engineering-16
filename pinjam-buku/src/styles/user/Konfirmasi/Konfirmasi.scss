@@ -1,0 +1,179 @@
+.confirm-page {
+    font-family: 'Poppins', sans-serif;
+    padding: 0;
+    margin: auto;
+
+    .confirm-description {
+        .confirm-top {
+            font-weight: 600;
+            line-height: 3rem;
+        }
+
+        .confirm-books {
+            .books-list {
+                width: 95%;
+                margin: 0;
+
+                .books-name {
+                    h6 {
+                        padding: 0;
+                    }
+
+                    padding: 0;
+
+                    .books-item {
+                        border: 1px #C9C9C9 solid;
+                        border-radius: 10px;
+                        padding: 0.2rem;
+                        margin: 0 0 1rem 0;
+                        box-shadow: 0px 4px 4px #C9C9C9;
+
+                        .books-desc {
+                            .books-photo {
+                                .photo {
+                                    width: 100%;
+                                    height: auto;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                hr {
+                    height: 0.6rem;
+                    background-color: rgb(194, 194, 194);
+                    box-shadow: 2px 4px 5px #818181;
+                    border-radius: 10px;
+                    margin: 1rem 0 2rem 0;
+                }
+            }
+
+            .payment-list {
+                width: 95%;
+                border: 1px #C9C9C9 solid;
+                border-radius: 10px;
+                padding: 1.5rem;
+                margin: 0 0 1rem 0;
+                box-shadow: 0px 4px 4px #C9C9C9;
+
+                .payment-title {
+                    font-weight: 700;
+                    padding: 0;
+                }
+
+                .payment-name {
+                    width: 20%;
+                    margin: 0;
+                }
+            }
+
+            .summary-detail {
+                width: 95%;
+                border: 1px #C9C9C9 solid;
+                border-radius: 10px;
+                padding: 1.5rem;
+                margin: 0 0 1rem 0;
+                box-shadow: 0px 4px 4px #C9C9C9;
+
+                .summary-title {
+                    font-weight: 700;
+                    padding: 0;
+                }
+
+                table {
+                    width: 100%;
+
+                    tr {
+                        .text-right {
+                            text-align: right;
+                        }
+
+                        .space {
+                            height: 0.5rem;
+                        }
+
+                        td {
+                            hr {
+                                height: 0.4rem;
+                                background-color: #a5a5a5;
+                                border-radius: 5px;
+                            }
+                        }
+                    }
+                }
+
+                .proof-payment {
+                    padding: 0;
+
+                    h5 {
+                        margin-top: 2rem;
+                        text-align: center;
+                        font-weight: bold;
+                    }
+
+                    label {
+                        margin-top: 0.6rem;
+                        display: inline-block;
+                        background-color: #EDEDED;
+                        color: black;
+                        padding: 0.5rem;
+                        font-family: sans-serif;
+                        border-radius: 0.3rem;
+                        cursor: pointer;
+                        width: 100%;
+                        text-align: center;
+                    }
+
+                    .proof-add {
+                        width: 5%;
+                        height: auto;
+                    }
+
+                    .proof-btn {
+                        width: 100%;
+                        background-color: #DAE4E2;
+                        color: #5C79C5;
+                        margin-top: 1rem;
+                        border-radius: 5px;
+                        border: none;
+                        font-weight: 700;
+
+                        &:hover {
+                            border: 1px #5C79C5 solid;
+                        }
+                    }
+                }
+            }
+        }
+
+        .confirm-notes {
+            .note-address {
+                border: 1px #C9C9C9 solid;
+                border-radius: 10px;
+                padding: 0.8rem;
+                box-shadow: 0px 2px 4px #C9C9C9;
+                margin-bottom: 1.5rem;
+
+                h6 {
+                    padding: 0;
+                    font-weight: bold;
+
+                    .note-logo {
+                        width: 10%;
+                        height: auto;
+                    }
+                }
+
+                p {
+                    padding: 0;
+                    font-size: 14px;
+
+                    span {
+                        font-weight: bold;
+                        text-align: justify;
+                    }
+                }
+            }
+        }
+    }
+}

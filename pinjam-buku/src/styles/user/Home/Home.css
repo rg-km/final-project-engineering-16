@@ -31,6 +31,7 @@
   font-family: "Poppins", sans-serif;
   text-align: center;
   position: absolute;
+  padding-top: 1rem !important;
   top: 75%;
   left: 50%;
   transform: translate(-50%, -50%);

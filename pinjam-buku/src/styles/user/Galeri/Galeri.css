@@ -1,0 +1,67 @@
+.galeri-page {
+  font-family: "Poppins", sans-serif;
+  margin-top: 2rem;
+}
+.galeri-page .galeri-search {
+  margin: auto;
+  max-height: 25vh;
+  width: 90%;
+  background-color: #D8E2FE;
+  border-radius: 10px;
+  box-shadow: 0px 4px 7px #807f7f;
+}
+.galeri-page .galeri-search .galeri-form {
+  width: 95%;
+  margin: auto;
+  padding: 2rem;
+}
+.galeri-page .galeri-search .galeri-form .galeri-input .icon {
+  width: 2.4%;
+  height: auto;
+  z-index: 10;
+  position: relative;
+  margin-right: -1.5rem;
+  color: #898989;
+}
+.galeri-page .galeri-search .galeri-form .galeri-input .input-words {
+  box-sizing: border-box;
+  padding-left: 1.5rem;
+}
+.galeri-page .galeri-search .galeri-form .galeri-input .input-words:focus {
+  box-shadow: 0px 0px 5px #979797;
+  border: none;
+  height: 3rem;
+}
+.galeri-page .galeri-search .galeri-form .galeri-btns {
+  margin: auto;
+  width: 30%;
+}
+.galeri-page .galeri-search .galeri-form .galeri-btns .dropdown {
+  margin: 0 1rem 0 1rem !important;
+}
+.galeri-page .galeri-search .galeri-form .galeri-btns .dropdown .galeri-btn {
+  background-color: #5C79C5;
+  border: none;
+}
+.galeri-page .galeri-search .galeri-form .galeri-btns .dropdown .galeri-btn:focus {
+  box-shadow: 0px 0px 5px 5px #aeb9f8;
+}
+.galeri-page .galeri-books {
+  padding: 3.5rem;
+}
+.galeri-page .galeri-books .col-md-4 {
+  margin-bottom: 2rem;
+}
+.galeri-page .galeri-books .link-book {
+  text-decoration: none;
+  color: black;
+}
+.galeri-page .galeri-books .link-book .card-book {
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px #979797;
+  border: none;
+}
+.galeri-page .galeri-books .link-book .card-book:hover {
+  box-shadow: 0px 0px 8px #5C79C5;
+  width: 20.5rem;
+}/*# sourceMappingURL=Galeri.css.map */

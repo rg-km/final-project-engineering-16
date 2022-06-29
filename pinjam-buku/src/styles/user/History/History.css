@@ -1,0 +1,39 @@
+.profile-content {
+  font-family: "Poppins", sans-serif;
+}
+.profile-content .profile-bottom .content-sidebar {
+  background-color: #F1F2FC;
+  padding: 0;
+  border-right: 30px white solid;
+  max-height: 68vh;
+}
+.profile-content .profile-bottom .content-sidebar .side-nav {
+  color: black;
+  margin: auto;
+  line-height: 3rem;
+}
+.profile-content .profile-bottom .content-sidebar .side-nav:hover {
+  background-color: #EDEDED;
+}
+.profile-content .profile-bottom .content-sidebar .nav-active {
+  background-color: #EDEDED;
+  font-weight: bold;
+}
+.profile-content .profile-bottom .content-sidebar .side-logout {
+  margin-top: 9rem;
+}
+.profile-content .profile-bottom .content-sidebar .side-logout:hover {
+  background-color: #F1F2FC;
+  color: red;
+}
+.profile-content .profile-bottom .content-data {
+  background-color: #F1F2FC;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+.profile-content .profile-bottom .content-data .table {
+  background-color: white;
+}
+.profile-content .profile-bottom .content-data .table thead {
+  background-color: #efefef;
+}/*# sourceMappingURL=History.css.map */

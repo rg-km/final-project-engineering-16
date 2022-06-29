@@ -199,6 +199,7 @@ func main() {
 		panic(err)
 	}
 
+	//for testing
 	_, err = db.Exec(`
 		INSERT INTO borrowing_status (status) 
 		VALUES 

@@ -1,0 +1,103 @@
+.cart-page {
+    font-family: 'Poppins', sans-serif;
+    padding: 0;
+    margin: auto;
+
+    .cart-description {
+        .cart-option {
+            .option-top {
+                font-weight: 600;
+                line-height: 3rem;
+
+                .option-logo {
+                    width: 3.5%;
+                    height: auto;
+                }
+            }
+
+            .option-book {
+                width: 95%;
+
+                .option-check {
+                    .check-logo {
+                        width: 2rem;
+                        height: auto;
+                        color: #5C79C5;
+                    }
+
+                    .uncheck-logo {
+                        width: 2rem;
+                        height: auto;
+                        color: #C9C9C9;
+                    }
+                }
+
+                .option-name {
+                    border: 1px #C9C9C9 solid;
+                    border-radius: 10px;
+                    padding: 1rem;
+                    margin: 1rem 0 2rem 0;
+                    box-shadow: 0px 4px 4px #C9C9C9;
+
+                    .name-desc {
+                        .desc-photo {
+                            .photo {
+                                width: 100%;
+                                height: auto;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .cart-notes {
+            margin: 2rem 0 0 0;
+
+            .note-address {
+                border: 1px #C9C9C9 solid;
+                border-radius: 10px;
+                padding: 0.8rem;
+                box-shadow: 2px 4px 4px #C9C9C9;
+
+                p {
+                    padding: 0;
+                    font-size: 14px;
+
+                    .location-logo {
+                        width: 9%;
+                        height: auto;
+                    }
+                }
+            }
+
+            .note-summary {
+                border: 1px #C9C9C9 solid;
+                margin-top: 2rem;
+                border-radius: 10px;
+                padding: 0.8rem;
+                box-shadow: 2px 4px 4px #C9C9C9;
+
+                h6 {
+                    padding: 0;
+                    font-weight: bold;
+                }
+
+                table {
+                    font-size: 15px;
+                }
+
+                .btn-summary {
+                    margin-top: 1rem;
+                    background-color: #5C79C5;
+                    border-radius: 5px;
+                    border: none;
+
+                    &:hover {
+                        font-weight: bold;
+                    }
+                }
+            }
+        }
+    }
+}

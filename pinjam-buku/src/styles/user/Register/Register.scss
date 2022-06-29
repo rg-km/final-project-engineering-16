@@ -29,24 +29,25 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    
+
     .jumbotron {
-        padding: 2rem;
-        margin-bottom: 2rem;
+        padding: 1.5rem;
         background-color: #fff;
         border-radius: .3rem;
         box-shadow: 0px 0px 7px rgb(117, 117, 117);
         text-align: left;
-        
+
         h1 {
             font-size: 1.7rem;
             font-weight: 600;
+
             .btn-back {
                 width: 10%;
                 background-color: white;
-                border: none;   
-                padding: 0;             
+                border: none;
+                padding: 0;
                 margin: 0;
+
                 .fa-left {
                     width: 1.1em;
                     height: 2em;
@@ -59,6 +60,7 @@
 
         p {
             font-size: 15px;
+
             a {
                 color: #5C79C5;
                 text-decoration: none;
@@ -78,6 +80,8 @@
             width: 100%;
             border-radius: 10px;
             font-weight: 800;
+            background-color: #5C79C5;
+            border: none;
         }
 
         .btn-primary:disabled {
@@ -96,26 +100,24 @@
             color: #5C79C5;
             line-height: 1.5em;
         }
+
         .alert-words {
             width: 80%;
             text-align: center;
             position: relative;
-            top:50%;
-            left:10%;
+            top: 50%;
+            left: 10%;
             line-height: 2.1em;
+
             span {
                 font-weight: bold;
                 font-size: 1.2rem;
             }
         }
-
-        .btn-primary {
-            background-color: red;
-        }
     }
 }
 
- @media screen and (max-width: 768px) {
+@media screen and (max-width: 768px) {
     figure {
         figcaption {
             position: inherit;
@@ -126,4 +128,4 @@
             }
         }
     }
- }
+}
